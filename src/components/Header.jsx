@@ -1,5 +1,3 @@
-import image from "../assets/images/placeholder-logo.jpg";
-
 function Header() {
   return (
     <div className="header-container">
@@ -29,6 +27,7 @@ function Header() {
           </li>
         </ul>
       </nav>
+      <button class="menu-toggle">☰</button>
     </div>
   );
 }
