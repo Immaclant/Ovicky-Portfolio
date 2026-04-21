@@ -1,8 +1,8 @@
 function Home() {
   return (
-    <section className="landing-container">
+    <section className="flex bg-blue-100 h-168 p-6">
       <div className="landing">
-        <div className="roles">
+        <div className=" flex space-y-4">
           <p className="role">Researcher</p>
           <span className="separator">.</span>
           <p className="role">Writer</p>
