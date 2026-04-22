@@ -23,8 +23,8 @@ function Header() {
   });
 
   return (
-    <div className="bg-gray-100">
-      <div className="relative container mx-auto  md:flex justify-between items-center py-3">
+    <div className="bg-gray-100 sticky top-0 z-20">
+      <div className=" container mx-auto  md:flex justify-between items-center py-3 sticky top-0">
         <h1 className="text-2xl whitespace-nowrap cursor-pointer font-bold tracking-wide ">
           Dr Fehintola Victor
         </h1>
@@ -40,42 +40,13 @@ function Header() {
         </button>
       </div>
       <div
-        className={`md:hidden overflow-hidden transition-all duration-500 bg-blue-200 px-4 ${
+        className={`md:hidden absolute left-0 top-full w-full overflow-hidden transition-all duration-500 bg-blue-200 px-4 ${
           isOpen ? "max-h-60 py-3" : "max-h-0 py-0"
         }`}
       >
         <ul className="space-y-2">{MappedNav}</ul>
       </div>
     </div>
-
-    // <div className="bg-transparent p-2 flex sticky top-0 justify-around">
-    //   {/* <img className="header-img" src={image} alt="logo" width={100} /> */}
-    //   <nav className="max-sm:hidden">
-    //     <ul className="flex space-x-6">
-    //       <li className="header-nav-item">
-    //         <a href="" className="header-nav-link">
-    //           Home
-    //         </a>
-    //       </li>
-    //       <li className="header-nav-item">
-    //         <a href="" className="header-nav-link">
-    //           About
-    //         </a>
-    //       </li>
-    //       <li className="header-nav-item">
-    //         <a href="" className="header-nav-link">
-    //           Publications
-    //         </a>
-    //       </li>
-    //       <li className="header-nav-item">
-    //         <a href="" className="header-nav-link">
-    //           Contacts
-    //         </a>
-    //       </li>
-    //     </ul>
-    //   </nav>
-    //   <button class="sm:hidden">☰</button>
-    // </div>
   );
 }
 
