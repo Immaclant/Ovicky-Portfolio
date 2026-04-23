@@ -38,7 +38,7 @@ function Sample() {
           alt="alt-text"
           className="w-100 md:w-fit rounded-t-lg"
         />
-        <div className="py-6">
+        <div className="py-6 text-gray-700 ">
           <h3 className="text-lg font-bold">{card.title}</h3>
           <p className="text-gray-800 tracking-wider italic px-2 ">
             {card.description}
@@ -52,10 +52,10 @@ function Sample() {
   });
 
   return (
-    <section className=" p-6 bg-blue-100">
+    <section className=" p-6 bg-gray-900">
       <div className=" mx-auto container  py-8 px-4 sm:px-0">
-        <div className="text-gray-700 text-center">
-          <h1 className="text-3xl font-extrabold text-center tracking-wide">
+        <div className="text-gray-100 text-center">
+          <h1 className="text-3xl font-extrabold text-center tracking-wide text-amber-400">
             Core areas of work
           </h1>
           <p className="text-lg tracking-wide pb-4">

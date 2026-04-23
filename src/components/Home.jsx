@@ -1,5 +1,6 @@
 import bgImage from "../assets/images/Ovicky-bg-img.jpg";
 import { HiArrowLongDown } from "react-icons/hi2";
+import Typing from "./Typing";
 
 function Home() {
   return (
@@ -34,15 +35,12 @@ function Home() {
           </span>
           of Knowledge
         </h2>
-        <p className="typewriter  max-sm:text-sm">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus
-          libero, enim iste laudantium ea, commodi, aspernatur repellat |
-        </p>
+        <Typing />
         <div className="space-y-6 space-x-4  ">
-          <button className="   px-4 py-2 rounded-lg shadow-black text-amber-100 bg-white/20 border border-white/30  shadow-md">
+          <button className="   px-4 py-2 rounded-lg text-gray-100 shadow-black  bg-white/20 border border-white/30 hover:-translate-y-1 transform transition duration-900  shadow-md hover:shadow-white md:shadow-sm">
             View Publications
           </button>
-          <button className="  bg-amber-400 px-4 py-2 rounded-lg shadow-mist-200 text-amber-100 ">
+          <button className="  bg-amber-400 px-4 py-2 rounded-lg  text-amber-100  hover:-translate-y-2 transform transition duration-900  hover:shadow-amber shadow md:shadow-sm ">
             About
           </button>
         </div>

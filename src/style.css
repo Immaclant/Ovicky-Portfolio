@@ -1,8 +1,4 @@
-
 /* HEADER/NAVIGATION */
-
-
-
 
 .header-container {
   display: flex;
@@ -235,6 +231,64 @@
 }
 
 /* END SAMPLE PAGE */
+
+/* COMMENTS PAGE */
+.comment-item {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 400px;
+  transition: 0.3s ease-in-out;
+}
+
+.comment-item:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.45);
+}
+
+.comment-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comment-rating {
+  font-size: 1.2rem;
+  letter-spacing: 0.2rem;
+}
+
+.comment-quote {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.comment-name {
+  font-weight: 700;
+  color: #fff;
+  margin-top: 0.5rem;
+}
+
+.comment-workplace {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.comment-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 1rem;
+}
+
+/* END COMMENTS PAGE */
 
 /* RESPONSIVE (mobile first, then tablet)
    Note: Base styles above are the "normal" (desktop-like) layout.

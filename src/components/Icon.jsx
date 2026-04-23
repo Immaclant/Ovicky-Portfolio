@@ -8,7 +8,7 @@ function Icon({ iconImage, iconText }) {
   hover:bg-white/20 hover:shadow-xl"
     >
       <IconComponent className="text-4xl" />
-      <p className="">{iconText}</p>
+      <p className="text-gray-50">{iconText}</p>
     </div>
   );
 }

@@ -21,7 +21,7 @@ function Achievements() {
   return (
     <section
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1712397943847-e104395a1a8b?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+        backgroundImage: `url('https://images.unsplash.com/photo-1614850523011-8f49ffc73908?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
