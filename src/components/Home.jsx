@@ -35,7 +35,7 @@ function Home() {
           </span>
           of Knowledge
         </h2>
-        <Typing />
+        <Typing className="text-xl md:text-2xl text-muted-foreground  mb-10 h-16 fade-up fade-up-delay-2 font-extralight" />
         <div className="space-y-6 space-x-4  ">
           <button className="   px-4 py-2 rounded-lg text-gray-100 shadow-black  bg-white/20 border border-white/30 hover:-translate-y-1 transform transition duration-900  shadow-md hover:shadow-white md:shadow-sm">
             View Publications
@@ -45,9 +45,13 @@ function Home() {
           </button>
         </div>
       </div>
-      <div className="absolute bottom-3 left-1/2 flex items-center transform -translate-x-1/2 text-center flex-col font-thin">
-        <HiArrowLongDown className="animate-bounce  bg-clip-text  hover:bg-amber-500" />
-        <p className="mt-1 tracking-wide text-xs">Scroll down</p>
+
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground">
+        <span className="text-xs tracking-widest uppercase">Scroll</span>
+        <div className="w-px h-12 bg-linear-to-b from-primary/50 to-transparent" />
+        <div className="absolute bottom-1 left-1/2 flex items-center transform -translate-x-1/2 text-center flex-col font-thin">
+          <HiArrowLongDown className="animate-bounce  bg-clip-text  hover:bg-amber-500" />
+        </div>
       </div>
     </section>
   );

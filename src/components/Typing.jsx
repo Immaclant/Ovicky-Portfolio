@@ -2,14 +2,15 @@ import React from "react";
 import { Typewriter } from "react-simple-typewriter";
 
 const words = [
-  "My name is Victor Fehintola",
-  "I can help with all sorts of projects",
-  "I am a professional research writer",
+  "Publishing groundbreaking research",
+  "Mentoring the next generation",
+  "Advancing academic excellence",
+  "Bridging theory and practice",
 ];
 
 function Typing() {
   return (
-    <div className="text-xl font-semibold">
+    <div className="text-xl md:text-2xl text-muted-foreground font-light mb-10 h-16 fade-up fade-up-delay-2">
       <Typewriter
         words={words}
         loop={true}

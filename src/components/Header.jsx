@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
+import { NavLink } from "react-router-dom";
 
-const Links = ["Home", "About", "Publications", "Contacts"];
+// const Links = ["Home", "About", "Publications", "Contacts"];
+const Links = [
+  { name: "Home", path: "/", id: 1 },
+  { name: "About", path: "/about", id: 2 },
+  { name: "Publication", path: "/publication", id: 3 },
+  { name: "Contact", path: "/contact", id: 4 },
+];
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,13 +18,22 @@ function Header() {
     setIsOpen((prev) => !prev);
   }
 
-  const MappedNav = Links.map((link, i) => {
+  const MappedNav = Links.map((link) => {
     return (
-      <li
-        key={i}
-        className="text-sm md:text-lg py-2 mx-2 hover:text-yellow-600 text-amber-400 mb-2 md:mb-0 font-bold cursor-pointer"
-      >
-        {link}
+      <li key={link.id}>
+        <NavLink
+          to={link.path}
+          className={({ isActive }) =>
+            `text-sm md:text-lg py-2 mx-2 mb-2 md:mb-0 font-bold cursor-pointer transition ${
+              isActive
+                ? "text-yellow-600"
+                : "text-amber-400 hover:text-yellow-600"
+            }`
+          }
+          onClick={() => setIsOpen(false)}
+        >
+          {link.name}
+        </NavLink>
       </li>
     );
   });
