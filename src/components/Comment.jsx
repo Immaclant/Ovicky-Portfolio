@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { commentsData } from "../data/commentsData";
+import quotationMark from "../assets/images/quotation-mark.png";
 
 function Comment() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -46,7 +47,9 @@ function Comment() {
               className="w-full shrink-0 p-10 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg"
             >
               <div className="mb-4">{"⭐".repeat(comment.rating)}</div>
-              <h3 className="text-1xl font-semibold mb-4">"{comment.text}"</h3>
+              <h3 className="text-1xl font-semibold mb-4 italic">
+                {comment.text}
+              </h3>
               <p className="font-bold text-blue-400 text-sm">{comment.name}</p>
               <p className="text-sm text-gray-400">{comment.workplace}</p>
             </div>
@@ -76,6 +79,11 @@ function Comment() {
             className={`h-2 w-2 rounded-full transition-all ${currentIndex === index ? "bg-white w-4" : "bg-white/30"}`}
           />
         ))}
+      </div>
+
+      {/* 5. Quotation Mark */}
+      <div className="relative w-full mt-8">
+        <img src={quotationMark} alt="quote" className="w-12 h-12 opacity-50" />
       </div>
     </div>
   );

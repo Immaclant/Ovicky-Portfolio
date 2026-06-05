@@ -8,7 +8,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contacts";
 function App() {
   return (
-    <div className="font-roboto">
+    <div className="font-serif">
       <Header />
 
       <Routes>
@@ -17,7 +17,7 @@ function App() {
         <Route path="/Publication" element={<Publication />} />
         <Route path="/Contact" element={<Contact />} />
       </Routes>
-
+      
       <Footer />
     </div>
   );

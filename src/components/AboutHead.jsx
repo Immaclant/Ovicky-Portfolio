@@ -1,25 +1,39 @@
+import AboutBio from "./AboutBio";
+import quotation from "../assets/images/quotation-mark.png";
+
+
+
 function AboutHead() {
   return (
-    <div>
-      <div>
-        <h1>About Me</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. In ipsa
-          laudantium numquam possimus eveniet aperiam blanditiis? Fugit quaerat
-          delectus corrupti magni, harum laboriosam aspernatur cum aliquam
-          labore dolore obcaecati ut. Omnis nobis velit cum nemo voluptatibus ad
-          ipsa sed saepe veritatis doloremque quis maiores hic necessitatibus ea
-          at, laborum fugit obcaecati dicta. Molestias harum accusantium, ad
-          nulla nostrum quaerat esse. Odit blanditiis soluta velit saepe
-          obcaecati accusamus quos alias, reprehenderit fuga dolor provident
-          officia cumque ut libero excepturi pariatur optio dolore quod non
-          reiciendis consequatur corporis ex veritatis harum. Aliquam. Sint
-          consequuntur maxime laudantium architecto velit, est perferendis?
-          Quaerat expedita nisi reiciendis ducimus sunt, quasi velit id deserunt
-          voluptatem aspernatur! Cum modi recusandae adipisci facilis ratione
-          repellat saepe corporis delectus.
+    <section className="bg-linear-to-tl from-gray-800  to-black min-h-screen relative">
+      <div className="flex items-center gap-4 flex-col">
+        <p className="mt-8 text-transparent bg-clip-text bg-linear-to-tl from-amber-400 to-yellow-500 text-2xl ">
+          ABOUT ME
         </p>
+        <h1 className="text-6xl  text-center">
+          The Person
+          <br /> Behind the{" "}
+          <span className=" bg-clip-text text-transparent bg-linear-to-r from-amber-400 to-yellow-500 md:[text-shadow:0_0_100px_rgba(251,191,36,0.8)]">
+            Work
+          </span>
+        </h1>
+        <div className=" flex space-y-4 text-amber-400 font-bold space-x-4">
+          <p className="transform transition hover:-translate-y-1 duration-900">
+            Researcher
+          </p>
+          <span>.</span>
+          <p className="transform transition hover:-translate-y-1 duration-900">
+            Writer
+          </p>
+          <span>.</span>
+          <p className="transform transition hover:-translate-y-1 duration-900">
+            Lecturer
+          </p>
+        </div>
       </div>
-    </div>
+      <AboutBio />
+    </section>
   );
 }
+
+export default AboutHead;

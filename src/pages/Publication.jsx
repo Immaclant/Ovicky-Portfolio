@@ -1,5 +1,13 @@
+
+
+import Pubhead from "../components/Pubhead";
+
 function Publication() {
-  return <h1>Hello World</h1>;
+  return (
+    <section>
+      <Pubhead />
+    </section>
+  );
 }
 
 export default Publication;

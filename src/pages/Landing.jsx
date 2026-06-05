@@ -5,7 +5,7 @@ import Comment from "../components/Comment";
 
 function Landing() {
   return (
-    <main className="main">
+    <main>
       <Home />
       <Achievements />
       <Sample />

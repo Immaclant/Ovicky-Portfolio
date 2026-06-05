@@ -2,5 +2,6 @@
 @plugin "daisyui";
 
 @theme {
-  --font-roboto: "Roboto", sans-serif;
+   --font-sans: 'DM Sans', sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
 }
