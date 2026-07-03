@@ -1,91 +1,103 @@
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { commentsData } from "../data/commentsData";
-import quotationMark from "../assets/images/quotation-mark.png";
 
 function Comment() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // 1. Logic for Navigation
-  const nextSlide = () => {
-    // If we are at the end, go back to 0, otherwise add 1
-    setCurrentIndex((prev) =>
-      prev === commentsData.length - 1 ? 0 : prev + 1,
-    );
-  };
+  const nextSlide = () =>
+    setCurrentIndex((prev) => (prev === commentsData.length - 1 ? 0 : prev + 1));
+  const prevSlide = () =>
+    setCurrentIndex((prev) => (prev === 0 ? commentsData.length - 1 : prev - 1));
 
-  const prevSlide = () => {
-    // If we are at the start, go to the last index, otherwise subtract 1
-    setCurrentIndex((prev) =>
-      prev === 0 ? commentsData.length - 1 : prev - 1,
-    );
-  };
-
-  // 2. Logic for Auto-scroll
   useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 5000); // Change slide every 5 seconds
+    const timer = setInterval(nextSlide, 5500);
+    return () => clearInterval(timer);
+  }, [currentIndex]);
 
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, [currentIndex]); // Restart timer when index changes
+  const current = commentsData[currentIndex];
 
   return (
-    <div className="bg-gray-900  flex flex-col items-center justify-center p-10 text-gray-100 ">
-      <h1 className="py-2 mb-4 font-bold text-2xl md:text-3xl text-amber-400">
-        What Others Says
-      </h1>
-      {/* Outer Container (The Window) */}
-      <div className="relative w-full max-w-2xl overflow-hidden rounded-xl">
-        {/* Inner Wrapper (The Moving Train) */}
-        <div
-          className="flex transition-transform duration-900 ease-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-          {commentsData.map((comment) => (
-            <div
-              key={comment.id}
-              className="w-full shrink-0 p-10 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg"
+    <section className="bg-dark-2 py-24">
+      <div className="mx-auto max-w-4xl px-6 lg:px-12 text-center">
+
+        {/* Eyebrow */}
+        <p className="section-eyebrow justify-center">Testimonials</p>
+        <h2 className="font-serif font-bold text-cream mb-16" style={{ fontSize: "clamp(1.8rem, 3vw, 2.2rem)" }}>
+          What Others Say
+        </h2>
+
+        {/* Carousel */}
+        <div className="relative min-h-[260px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              className="absolute inset-0 flex flex-col items-center justify-center px-4"
             >
-              <div className="mb-4">{"⭐".repeat(comment.rating)}</div>
-              <h3 className="text-1xl font-semibold mb-4 italic">
-                {comment.text}
-              </h3>
-              <p className="font-bold text-blue-400 text-sm">{comment.name}</p>
-              <p className="text-sm text-gray-400">{comment.workplace}</p>
-            </div>
-          ))}
+              {/* Giant quote */}
+              <div className="font-serif text-[5rem] text-gold/30 leading-none mb-2 select-none">
+                &ldquo;
+              </div>
+
+              {/* Stars */}
+              <div className="flex gap-1 mb-5">
+                {Array.from({ length: current.rating }).map((_, i) => (
+                  <span key={i} className="text-gold text-sm">★</span>
+                ))}
+              </div>
+
+              {/* Quote text */}
+              <p className="font-serif italic text-cream text-lg md:text-xl leading-relaxed max-w-2xl mb-8 font-light">
+                "{current.text}"
+              </p>
+
+              {/* Author */}
+              <div>
+                <p className="font-semibold text-gold text-sm tracking-wide">{current.name}</p>
+                <p className="text-xs text-cream-dim mt-1 font-light tracking-wide">{current.workplace}</p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
-        {/* 3. Navigation Buttons */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 px-2 py-1 rounded-full"
-        >
-          ←
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50  rounded-full px-2 py-1"
-        >
-          →
-        </button>
-      </div>
+        {/* Navigation */}
+        <div className="flex items-center justify-center gap-6 mt-4">
+          <button
+            onClick={prevSlide}
+            className="w-10 h-10 border border-cream-faint text-cream-dim hover:border-gold hover:text-gold transition-all duration-300 flex items-center justify-center text-lg"
+            aria-label="Previous testimonial"
+          >
+            ←
+          </button>
 
-      {/* 4. Indicators (Dots) */}
-      <div className="flex space-x-2 mt-6">
-        {commentsData.map((_, index) => (
-          <div
-            key={index}
-            className={`h-2 w-2 rounded-full transition-all ${currentIndex === index ? "bg-white w-4" : "bg-white/30"}`}
-          />
-        ))}
-      </div>
+          {/* Dots */}
+          <div className="flex gap-2">
+            {commentsData.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i)}
+                className={`h-1.5 rounded-full transition-all duration-400 ${
+                  i === currentIndex ? "w-6 bg-gold" : "w-1.5 bg-cream-faint hover:bg-cream-dim"
+                }`}
+                aria-label={`Go to testimonial ${i + 1}`}
+              />
+            ))}
+          </div>
 
-      {/* 5. Quotation Mark */}
-      <div className="relative w-full mt-8">
-        <img src={quotationMark} alt="quote" className="w-12 h-12 opacity-50" />
+          <button
+            onClick={nextSlide}
+            className="w-10 h-10 border border-cream-faint text-cream-dim hover:border-gold hover:text-gold transition-all duration-300 flex items-center justify-center text-lg"
+            aria-label="Next testimonial"
+          >
+            →
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 

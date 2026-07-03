@@ -1,70 +1,85 @@
-import placeHolder from "../assets/images/placeholder-logo.jpg";
-const Data = [
+import { motion } from "framer-motion";
+import { FiArrowRight, FiBookOpen, FiUsers, FiHeart } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+
+const areas = [
   {
-    id: 1,
-    title: "Research & Publications",
+    num: "01",
+    title: "Academic Research",
     description:
-      "Peer-reviewed research papers and scholarly articles published in leading conferences and journals. Covering topics in computer science, AI, and data analytics.",
-    image: "placeholder",
-    buttonText: "View Publications",
+      "Peer-reviewed studies, journal articles, and academic book contributions focused on Counselling Psychology, Special Education, and Adolescent Behavior.",
+    icon: FiBookOpen,
+    buttonText: "Browse Publications",
+    link: "/publication",
   },
   {
-    id: 2,
-    title: "Project Development",
+    num: "02",
+    title: "Teaching & Mentorship",
     description:
-      "Full-stack web applications and software solutions built with modern technologies. From concept to deployment with focus on user experience and performance.",
-    image: "placeholder",
-    buttonText: "View Projects",
+      "Nurturing future educators and researchers through undergraduate and graduate level courses in Educational Psychology, Counselling and Research Methods.",
+    icon: FiUsers,
+    buttonText: "Learn About Me",
+    link: "/about",
   },
   {
-    id: 3,
-    title: "Technical Writing",
+    num: "03",
+    title: "Community Advocacy",
     description:
-      "Comprehensive documentation, technical blogs, and tutorial content. Making complex concepts accessible to both beginners and experienced developers.",
-    image: "placeholder",
-    buttonText: "Read Articles",
+      "Promoting psychological well-being, resilience, and educational inclusivity in local schools and communities across Oyo and Oyo State, Nigeria.",
+    icon: FiHeart,
+    buttonText: "Contact Me",
+    link: "/contact",
   },
 ];
 
 function Sample() {
-  const Card = Data.map((card) => {
-    return (
-      <div
-        key={card.id}
-        className="bg-white flex flex-col items-center rounded-lg shadow-sm transform hover:-translate-y-2 transition duration-900 relative hover:shadow-2xl"
-      >
-        <img
-          src={placeHolder}
-          alt="alt-text"
-          className="w-100 md:w-fit rounded-t-lg"
-        />
-        <div className="py-6 text-gray-700 ">
-          <h3 className="text-lg font-bold">{card.title}</h3>
-          <p className="text-gray-800 tracking-wider italic px-2 ">
-            {card.description}
-          </p>
-          <button className=" bg-amber-400 px-4 py-2 mt-4 rounded-lg ">
-            {card.buttonText}
-          </button>
-        </div>
-      </div>
-    );
-  });
+  const navigate = useNavigate();
 
   return (
-    <section className=" p-6 bg-gray-900">
-      <div className=" mx-auto container  py-8 px-4 sm:px-0">
-        <div className="text-gray-100 text-center">
-          <h1 className="text-3xl font-extrabold text-center tracking-wide text-amber-400">
-            Core areas of work
-          </h1>
-          <p className="text-lg tracking-wide pb-4">
-            Navigate through years of scholarly contributions and research
-            output
+    <section className="bg-dark py-20" id="core-areas">
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
+        {/* Header */}
+        <div className="text-center mb-14">
+          <p className="section-eyebrow justify-center">Overview</p>
+          <h2 className="font-serif font-bold text-cream" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
+            Core Areas of Work
+          </h2>
+          <p className="mt-4 text-sm text-cream-dim font-light max-w-xl mx-auto leading-relaxed">
+            Explore academic contributions, lecture programmes, and community interventions
           </p>
         </div>
-        <div className="md:flex space-y-8 md:space-y-0 md:space-x-8 text-center ">
-          {Card}
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-cream-faint border border-cream-faint">
+          {areas.map((card, i) => (
+            <motion.div
+              key={card.num}
+              className="expertise-card flex flex-col justify-between"
+              style={{ minHeight: "320px" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.12, duration: 0.55 }}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[0.7rem] font-bold text-gold tracking-[0.2em] opacity-70">{card.num}</span>
+                  <div className="w-10 h-10 flex items-center justify-center bg-gold/10 text-gold">
+                    <card.icon className="w-5 h-5" />
+                  </div>
+                </div>
+                <h3 className="font-serif font-bold text-cream text-xl mb-3">{card.title}</h3>
+                <p className="text-sm text-cream-dim font-light leading-relaxed">{card.description}</p>
+              </div>
+              <button
+                onClick={() => navigate(card.link)}
+                className="mt-8 self-start inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-gold border-b border-gold/30 hover:border-gold pb-0.5 transition-all duration-300"
+              >
+                {card.buttonText}
+                <FiArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,16 +1,26 @@
-import Home from "../components/Home";
-import Achievements from "../components/Achievements";
+import { useEffect } from "react";
+import { Hero } from "../components/sections/Hero";
+import { Achievements } from "../components/sections/Achievements";
+import { ResearchFocus } from "../components/sections/ResearchFocus";
 import Sample from "../components/Sample";
-import Comment from "../components/Comment";
+import { Testimonials } from "../components/sections/Testimonials";
+import { CTA } from "../components/sections/CTA";
 
 function Landing() {
+  useEffect(() => {
+    document.title = "Dr. Fehintola Victor A. | Academic Portfolio & Lecturer";
+  }, []);
+
   return (
-    <main>
-      <Home />
+    <main className="bg-slate-950 overflow-hidden">
+      <Hero />
       <Achievements />
       <Sample />
-      <Comment />
+      <ResearchFocus />
+      <Testimonials />
+      <CTA />
     </main>
   );
 }
+
 export default Landing;

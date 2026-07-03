@@ -1,59 +1,84 @@
 import bgImage from "../assets/images/Ovicky-bg-img.jpg";
-import { HiArrowLongDown } from "react-icons/hi2";
-import Typing from "./Typing";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
+
   return (
     <section
-      className="text-gray-100 min-h-screen relative"
+      className="relative min-h-screen flex items-center overflow-hidden"
       style={{
         backgroundImage: `url(${bgImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="absolute inset-0 bg-black/60 pointer-events-none z-0"></div>
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0d0d0d]/90 via-[#0d0d0d]/70 to-[#0d0d0d]/40 pointer-events-none" />
+      {/* Subtle gold radial glow */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gold/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="flex z-10  relative justify-center items-center flex-col py-30 tracking-widest md:w-1/3 w-2/3 mx-auto text-center  sm:space-y-12 md:space-y-20 space-y-8">
-        <div className=" flex space-y-4 text-amber-400 font-bold space-x-4">
-          <p className="transform transition hover:-translate-y-1 duration-900">
-            Researcher
-          </p>
-          <span>.</span>
-          <p className="transform transition hover:-translate-y-1 duration-900">
-            Writer
-          </p>
-          <span>.</span>
-          <p className="transform transition hover:-translate-y-1 duration-900">
-            Lecturer
-          </p>
+      {/* Decorative right-side vertical line */}
+      <div className="absolute right-16 top-1/2 -translate-y-1/2 w-px h-[55%] bg-gradient-to-b from-transparent via-gold/40 to-transparent hidden lg:block" />
+
+      {/* Content */}
+      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12 py-32">
+        {/* Eyebrow */}
+        <div
+          className="section-eyebrow mb-6"
+          style={{ animation: "fadeUp 0.8s 0.2s both" }}
+        >
+          Academic Portfolio
         </div>
-        <h2 className="text-3xl sm:text-4xl md:text-6xl font-extrabold">
-          Exploring the
-          <span className="text-transparent bg-clip-text mx-2 bg-yellow-400 mr-2">
-            Frontiers
-          </span>
+
+        {/* Headline */}
+        <h1
+          className="font-serif font-black text-cream leading-[1.0] tracking-tight max-w-3xl"
+          style={{
+            fontSize: "clamp(3.2rem, 8vw, 6.5rem)",
+            animation: "fadeUp 0.9s 0.35s both",
+          }}
+        >
+          Exploring the<br />
+          <span className="italic text-gold">Frontiers</span><br />
           of Knowledge
-        </h2>
-        <Typing className="text-xl md:text-2xl text-muted-foreground  mb-10 h-16 fade-up fade-up-delay-2 font-extralight" />
-        <div className="space-y-6 space-x-4  ">
-          <button className="   px-4 py-2 rounded-lg text-gray-100 shadow-black  bg-white/20 border border-white/30 hover:-translate-y-1 transform transition duration-900  shadow-md hover:shadow-white md:shadow-sm">
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          className="mt-6 text-sm font-light tracking-[0.18em] uppercase text-cream-dim max-w-md"
+          style={{ animation: "fadeUp 0.9s 0.5s both" }}
+        >
+          Researcher · Writer · Lecturer
+        </p>
+
+        {/* Buttons */}
+        <div
+          className="flex flex-wrap gap-4 mt-10"
+          style={{ animation: "fadeUp 0.9s 0.65s both" }}
+        >
+          <button
+            onClick={() => navigate("/publication")}
+            className="btn-primary tracking-widest uppercase text-xs px-8 py-3.5"
+          >
             View Publications
           </button>
-          <button className="  bg-amber-400 px-4 py-2 rounded-lg  text-amber-100  hover:-translate-y-2 transform transition duration-900  hover:shadow-amber shadow md:shadow-sm ">
-            About
+          <button
+            onClick={() => navigate("/about")}
+            className="btn-secondary tracking-widest uppercase text-xs px-8 py-3.5"
+          >
+            About Me
           </button>
         </div>
       </div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground">
-        <span className="text-xs tracking-widest uppercase">Scroll</span>
-        <div className="w-px h-12 bg-linear-to-b from-primary/50 to-transparent" />
-        <div className="absolute bottom-1 left-1/2 flex items-center transform -translate-x-1/2 text-center flex-col font-thin">
-          <HiArrowLongDown className="animate-bounce  bg-clip-text  hover:bg-amber-500" />
-        </div>
+      {/* Scroll indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+        <span className="text-[0.65rem] tracking-[0.22em] uppercase text-cream-dim">Scroll</span>
+        <div className="w-px h-12 bg-gradient-to-b from-gold/60 to-transparent" />
       </div>
     </section>
   );
 }
+
 export default Home;

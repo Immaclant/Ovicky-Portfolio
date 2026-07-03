@@ -1,6 +1,12 @@
+import { useEffect } from "react";
+import ContactForm from "../components/ContactForm";
 
 function Contact() {
-    return <h1>Hello World</h1>
+  useEffect(() => {
+    document.title = "Get In Touch | Dr. Fehintola Victor A.";
+  }, []);
+
+  return <ContactForm />;
 }
 
-export default Contact
+export default Contact;

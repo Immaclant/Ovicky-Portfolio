@@ -1,53 +1,70 @@
-import {
-  FaBookOpen,
-  FaGraduationCap,
-  FaFileAlt,
-  FaAward,
-} from "react-icons/fa";
-import Icon from "./Icon";
+import { motion } from "framer-motion";
 
-const iconsArray = [
-  { id: 1, icon: FaBookOpen, text: "20+ Publications" },
-  { id: 2, icon: FaGraduationCap, text: "10+ Years Teaching" },
-  { id: 3, icon: FaFileAlt, text: "50+ Papers" },
-  { id: 4, icon: FaAward, text: "Award Winning Researcher" },
+const expertiseAreas = [
+  {
+    num: "01",
+    title: "Counselling Psychology",
+    desc: "Researching socio-emotional crises, resilience, and psychological well-being in educational and clinical settings across Nigeria.",
+  },
+  {
+    num: "02",
+    title: "Special Education",
+    desc: "Advancing inclusive classroom practices and policies for learners with special needs, championing equitable educational outcomes.",
+  },
+  {
+    num: "03",
+    title: "Research Methodology",
+    desc: "Designing rigorous empirical studies using psychometric tools, large-scale surveys, and experimental frameworks.",
+  },
+  {
+    num: "04",
+    title: "Community Advocacy",
+    desc: "Facilitating counselling workshops, promoting mental health literacy, and mentoring early-career researchers across Oyo State.",
+  },
 ];
 
 function Achievements() {
-  const mappedIcon = iconsArray.map((ic) => {
-    return <Icon key={ic.id} iconImage={ic.icon} iconText={ic.text} />;
-  });
-
   return (
-    <section
-      style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1614850523011-8f49ffc73908?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-      className="bg-blue-100 p-4 relative text-justify text-gray-200 lg:h-200 flex justify-center items-center"
-    >
-      <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
-      <div className="relative z-10 container mx-auto lg:w-2/3">
-        <h2 className="text-center mb-4 text-2xl uppercase font-extrabold text-amber-500 ">
-          Years of research and teaching excellence
-        </h2>
-        <div className=" flex md:text-[16px] text-sm/8 flex-col md:flex-row  items-center  md:space-x-6">
-          <div className="md:w-1/2">
-            <p className="achievement-text">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Aspernatur perspiciatis harum tempora modi repudiandae, ullam
-              natus voluptatum? Optio accusamus odio sequi, soluta doloribus,
-              quasi obcaecati corporis ipsum repellat esse nemo? Non pariatur
-              facere nostrum iste debitis voluptate? Debitis consequatur impedit
-              recusandae dolores voluptatibus neque quaerat voluptatem nihil
-              optio qui. Suscipit quas deleniti nisi, explicabo rerum esse quo
-              necessitatibus magnam architecto.
-            </p>
+    <section className="bg-dark py-20">
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
+        {/* Header */}
+        <div className="flex items-end justify-between mb-2">
+          <div>
+            <p className="section-eyebrow">What I Do</p>
+            <h2 className="font-serif font-bold text-cream" style={{ fontSize: "clamp(1.8rem, 3vw, 2.2rem)" }}>
+              Areas of Focus
+            </h2>
           </div>
-          <div className="  flex flex-col w-2/3 mx-auto md:grid grid-cols-2 gap-4  pt-4 text-amber-400">
-            {mappedIcon}
-          </div>
+        </div>
+
+        {/* Expertise Grid */}
+        <div
+          className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+          style={{ border: "1px solid rgba(245,240,232,0.06)" }}
+        >
+          {expertiseAreas.map((area, i) => (
+            <motion.div
+              key={area.num}
+              className="expertise-card"
+              style={{
+                borderRight: i < expertiseAreas.length - 1 ? "1px solid rgba(245,240,232,0.06)" : "none",
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+            >
+              <div className="text-[0.7rem] font-bold text-gold tracking-[0.2em] mb-5 opacity-70">
+                {area.num}
+              </div>
+              <h3 className="font-serif font-bold text-cream text-[1.15rem] mb-3">
+                {area.title}
+              </h3>
+              <p className="text-sm text-cream-dim font-light leading-[1.75]">
+                {area.desc}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

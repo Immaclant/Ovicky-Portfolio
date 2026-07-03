@@ -1,38 +1,49 @@
 import AboutBio from "./AboutBio";
-import quotation from "../assets/images/quotation-mark.png";
-
-
 
 function AboutHead() {
   return (
-    <section className="bg-linear-to-tl from-gray-800  to-black min-h-screen relative">
-      <div className="flex items-center gap-4 flex-col">
-        <p className="mt-8 text-transparent bg-clip-text bg-linear-to-tl from-amber-400 to-yellow-500 text-2xl ">
-          ABOUT ME
-        </p>
-        <h1 className="text-6xl  text-center">
-          The Person
-          <br /> Behind the{" "}
-          <span className=" bg-clip-text text-transparent bg-linear-to-r from-amber-400 to-yellow-500 md:[text-shadow:0_0_100px_rgba(251,191,36,0.8)]">
-            Work
-          </span>
-        </h1>
-        <div className=" flex space-y-4 text-amber-400 font-bold space-x-4">
-          <p className="transform transition hover:-translate-y-1 duration-900">
-            Researcher
-          </p>
-          <span>.</span>
-          <p className="transform transition hover:-translate-y-1 duration-900">
-            Writer
-          </p>
-          <span>.</span>
-          <p className="transform transition hover:-translate-y-1 duration-900">
-            Lecturer
+    <div className="bg-dark">
+      {/* Hero Band */}
+      <section className="relative overflow-hidden pt-12 pb-10">
+        {/* Background glow */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 60% 80% at 80% 50%, rgba(240,165,0,0.06) 0%, transparent 70%), linear-gradient(180deg, rgba(240,165,0,0.04) 0%, transparent 100%)",
+          }}
+        />
+        {/* Decorative right line */}
+        <div className="absolute right-16 top-1/2 -translate-y-1/2 w-px h-[60%] bg-gradient-to-b from-transparent via-gold/30 to-transparent hidden lg:block" />
+
+        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
+          <div
+            className="section-eyebrow"
+            style={{ animation: "fadeUp 0.8s 0.2s both" }}
+          >
+            About Me
+          </div>
+          <h1
+            className="font-serif font-black text-cream leading-[1.0] tracking-tight"
+            style={{
+              fontSize: "clamp(3rem, 7vw, 6rem)",
+              animation: "fadeUp 0.9s 0.35s both",
+            }}
+          >
+            The Person<br />Behind the{" "}
+            <span className="italic text-gold">Work</span>
+          </h1>
+          <p
+            className="mt-5 text-xs font-light tracking-[0.18em] uppercase text-cream-dim"
+            style={{ animation: "fadeUp 0.9s 0.5s both" }}
+          >
+            Academic · Researcher · Leader
           </p>
         </div>
-      </div>
+      </section>
+
       <AboutBio />
-    </section>
+    </div>
   );
 }
 

@@ -2,6 +2,239 @@
 @plugin "daisyui";
 
 @theme {
-   --font-sans: 'DM Sans', sans-serif;
-  --font-serif: 'Cormorant Garamond', serif;
+  /* ── Typography ── */
+  --font-sans: 'Outfit', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+
+  /* ── Brand Colours ── */
+  --color-gold:         #f0a500;
+  --color-gold-dim:     #c48500;
+  --color-gold-glow:    rgba(240, 165, 0, 0.15);
+  --color-primary:      #f0a500;
+  --color-primary-dark: #c48500;
+  --color-primary-light:#f5be3d;
+
+  /* ── Backgrounds ── */
+  --color-dark:         #0d0d0d;
+  --color-dark-2:       #141414;
+  --color-dark-3:       #1c1c1c;
+  --color-dark-4:       #252525;
+  --color-darker:       #050505;
+
+  /* ── Text ── */
+  --color-cream:        #f5f0e8;
+  --color-cream-dim:    rgba(245, 240, 232, 0.6);
+  --color-cream-faint:  rgba(245, 240, 232, 0.12);
+
+  /* ── Animations ── */
+  --animate-fade-in:   fadeIn 0.6s ease-out forwards;
+  --animate-slide-up:  slideUp 0.7s ease-out forwards;
+  --animate-ticker:    ticker 22s linear infinite;
+}
+
+/* ── Keyframes ── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Base Layer ── */
+@layer base {
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #0d0d0d;
+    color: #f5f0e8;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: rgba(240, 165, 0, 0.25);
+    color: #f0a500;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #0d0d0d; }
+  ::-webkit-scrollbar-thumb { background: rgba(240, 165, 0, 0.4); border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #f0a500; }
+}
+
+/* ── Component Layer ── */
+@layer components {
+
+  /* Container */
+  .container-main { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+
+  /* Section spacing */
+  .section { @apply py-20 sm:py-24 lg:py-32; }
+
+  /* Section label (eyebrow) */
+  .section-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #f0a500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1px;
+    background: #f0a500;
+    flex-shrink: 0;
+  }
+
+  /* Primary button — gold fill */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3
+           bg-gold text-dark font-semibold text-sm tracking-wide
+           hover:bg-primary-light
+           transition-all duration-300
+           focus:outline-none focus:ring-2 focus:ring-gold/50;
+  }
+
+  /* Secondary button — ghost gold border */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3
+           border border-gold/50 text-cream font-semibold text-sm tracking-wide
+           hover:border-gold hover:text-gold hover:bg-gold/5
+           transition-all duration-300
+           focus:outline-none focus:ring-2 focus:ring-gold/30;
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
+           text-cream-dim text-sm font-medium
+           hover:text-gold hover:bg-gold/5
+           transition-all duration-300;
+  }
+
+  /* Card */
+  .card {
+    background: #141414;
+    border: 1px solid rgba(245, 240, 232, 0.08);
+    transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+  }
+  .card:hover {
+    border-color: rgba(240, 165, 0, 0.3);
+    box-shadow: 0 12px 40px rgba(240, 165, 0, 0.06);
+    transform: translateY(-2px);
+  }
+
+  /* Expertise card — bottom gold bar reveal */
+  .expertise-card {
+    position: relative;
+    background: #0d0d0d;
+    padding: 2.5rem 2rem;
+    border: 1px solid rgba(245, 240, 232, 0.06);
+    overflow: hidden;
+    transition: background 0.35s ease;
+  }
+  .expertise-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: #f0a500;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .expertise-card:hover { background: #1c1c1c; }
+  .expertise-card:hover::after { transform: scaleX(1); }
+
+  /* Glass */
+  .glass {
+    background: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(245, 240, 232, 0.08);
+  }
+  .glass-strong {
+    background: rgba(13, 13, 13, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(245, 240, 232, 0.10);
+  }
+
+  /* Input */
+  .input-field {
+    @apply w-full px-4 py-3
+           bg-dark-2 border border-cream-faint
+           text-cream placeholder-cream-dim
+           focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/20
+           transition-all duration-300;
+  }
+  .label-field {
+    @apply block text-sm font-medium text-cream-dim mb-2 tracking-wide;
+  }
+
+  /* Ticker */
+  .ticker-wrap {
+    background: #f0a500;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0.55rem 0;
+  }
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 22s linear infinite;
+  }
+  .ticker-item {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #0d0d0d;
+    padding: 0 2.5rem;
+  }
+  .ticker-item::before {
+    content: '✦';
+    margin-right: 2.5rem;
+    opacity: 0.45;
+  }
+}
+
+/* ── Utility Layer ── */
+@layer utilities {
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+  .animate-delay-500 { animation-delay: 500ms; }
+
+  .text-balance { text-wrap: balance; }
+
+  /* Drop cap utility */
+  .drop-cap::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.5rem;
+    font-weight: 900;
+    color: #f0a500;
+    float: left;
+    line-height: 0.78;
+    margin: 0.08em 0.12em 0 0;
+  }
 }
