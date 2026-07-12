@@ -1,89 +1,28 @@
-import { useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import PubForm from "./Pubform";
-import Pubimage from "./Pubimage";
-import {
-  PUBLICATION_FILTERS,
-  URL_TYPE_MAP,
-} from "../data/publicationFilters";
-
-function getInitialFilter(searchParams) {
-  const type = searchParams.get("type")?.toLowerCase();
-  return URL_TYPE_MAP[type] || "all";
-}
-
-function Pubhead() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [activeFilter, setActiveFilter] = useState(() =>
-    getInitialFilter(searchParams),
-  );
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleFilterChange = (filterId) => {
-    setActiveFilter(filterId);
-
-    const nextParams = new URLSearchParams(searchParams);
-
-    if (filterId === "all") {
-      nextParams.delete("type");
-    } else {
-      const urlType =
-        filterId === "journals"
-          ? "journal"
-          : filterId === "books"
-            ? "book"
-            : filterId === "conferences"
-              ? "conference"
-              : filterId;
-      nextParams.set("type", urlType);
-    }
-
-    setSearchParams(nextParams, { replace: true });
-  };
-
-  const filterLabel = useMemo(
-    () =>
-      PUBLICATION_FILTERS.find((filter) => filter.id === activeFilter)?.label ||
-      "All",
-    [activeFilter],
-  );
-
+function PubHead() {
   return (
-    <div className="bg-slate-950 min-h-screen pb-20">
-      {/* Hero Header */}
-      <div className="relative bg-gradient-to-b from-slate-900 to-slate-950 pt-24 pb-12 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
-        <div className="relative container mx-auto px-4 max-w-4xl text-center space-y-4">
-          <span className="inline-block text-xs uppercase tracking-[0.25em] text-primary font-bold">
-            Publications
-          </span>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-slate-100 tracking-tight">
-            Research Portfolio
-          </h1>
-          <p className="mx-auto max-w-2xl text-slate-400 text-lg leading-relaxed">
-            A curated collection of journal articles, conference papers, and book chapters
-            spanning over a decade of rigorous academic research.
-          </p>
+    <div className="bg-manila border-b-4 border-double border-ink pt-24 pb-12 relative overflow-hidden">
+      {/* Background ledger grid */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik0gNDAgMCBMIDAgMCBMIDAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNiwgMjYsIDI2LCAwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjwvc3ZnPg==')] pointer-events-none" />
+
+      <div className="mx-auto max-w-6xl px-4 text-center relative z-10">
+        <div className="inline-flex justify-center mb-6">
+          <span className="folder-tab">Archive Directory</span>
         </div>
-      </div>
 
-      {/* Filter & Search */}
-      <div className="sticky top-16 z-30 bg-slate-950/95 backdrop-blur-md border-b border-slate-800/60 shadow-xl shadow-black/20">
-        <PubForm
-          activeFilter={activeFilter}
-          onFilterChange={handleFilterChange}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-        />
-      </div>
+        <h1
+          className="font-serif font-black text-ink tracking-tight uppercase"
+          style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)" }}
+        >
+          Research Output
+        </h1>
 
-      <Pubimage
-        activeFilter={activeFilter}
-        searchQuery={searchQuery}
-        filterLabel={filterLabel}
-      />
+        <p className="mt-4 text-ink-light font-mono text-sm max-w-2xl mx-auto uppercase leading-relaxed border-t-2 border-dashed border-ink pt-4">
+          A comprehensive catalog of peer-reviewed journal articles, books,
+          chapters, and conference presentations.
+        </p>
+      </div>
     </div>
   );
 }
 
-export default Pubhead;
+export default PubHead;

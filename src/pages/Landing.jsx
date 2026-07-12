@@ -12,7 +12,7 @@ function Landing() {
   }, []);
 
   return (
-    <main className="bg-slate-950 overflow-hidden">
+    <main className="bg-manila overflow-hidden relative">
       <Hero />
       <Achievements />
       <Sample />

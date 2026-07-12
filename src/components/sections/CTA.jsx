@@ -1,107 +1,62 @@
-import { motion } from "framer-motion";
-import { FiArrowRight, FiMail, FiLinkedin } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { Section, Container } from "../ui/Section";
-import { Button } from "../ui/Button";
 
 export function CTA() {
   const navigate = useNavigate();
+
   return (
-    <Section size="md" background="gradient" id="cta">
-      <Container>
-        <motion.div
-          className="relative p-8 md:p-16 rounded-3xl bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 text-center"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-        >
-          <motion.div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent rounded-3xl" />
-          <motion.div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5 rounded-3xl" />
+    <section className="section bg-manila relative overflow-hidden" id="cta">
+      
+      {/* Background ledger grid */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik0gNDAgMCBMIDAgMCBMIDAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNiwgMjYsIDI2LCAwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjwvc3ZnPg==')] pointer-events-none" />
 
-          <motion.h2
-            className="relative text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-slate-100 mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            Ready to Collaborate?
-          </motion.h2>
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        
+        <div className="index-card p-10 md:p-16 bg-manila inline-block">
+          
+          <div className="flex justify-center mb-6">
+            <span className="stamp-badge">Action Required</span>
+          </div>
+          
+          <h2 className="font-serif font-black text-ink tracking-tight uppercase mb-6" style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}>
+            Initiate Collaboration
+          </h2>
 
-          <motion.p
-            className="relative text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            Whether you're seeking a research collaborator, PhD supervisor, or expert consultant
-            for your next project, I'd love to hear from you.
-          </motion.p>
+          <p className="text-ink text-lg font-medium max-w-2xl mx-auto mb-10 leading-relaxed border-l-4 border-ledger pl-6 text-left">
+            Currently accepting proposals for research collaboration, PhD supervision, and academic consultation. All inquiries are strictly confidential and subject to review.
+          </p>
 
-          <motion.div
-            className="relative flex flex-col sm:flex-row items-center justify-center gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <Button
-              size="lg"
-              rightIcon={<FiArrowRight className="w-5 h-5" />}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <button
+              className="btn-typewriter btn-typewriter-primary"
               onClick={() => navigate("/contact")}
             >
-              Start a Conversation
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              leftIcon={<FiMail className="w-5 h-5" />}
+              Submit Proposal [Form]
+            </button>
+            <button
+              className="btn-typewriter"
               onClick={() => window.location.href = "mailto:fehintolagoodness@gmail.com"}
             >
-              Email Me
-            </Button>
-          </motion.div>
+              Direct Email
+            </button>
+          </div>
 
-          <motion.div
-            className="relative mt-10 flex items-center justify-center gap-8 text-slate-500"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            <a
-              href="https://linkedin.com/in/fehintolavictor"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-primary transition-colors"
-              aria-label="LinkedIn"
-            >
-              <FiLinkedin className="w-5 h-5" />
-              <span className="hidden sm:inline">LinkedIn</span>
-            </a>
-            <span className="w-px h-6 bg-slate-700" />
-            <a
-              href="https://scholar.google.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-primary transition-colors"
-              aria-label="Google Scholar"
-            >
-              <FiLinkedin className="w-5 h-5" />
-              <span className="hidden sm:inline">Google Scholar</span>
-            </a>
-            <span className="w-px h-6 bg-slate-700" />
-            <a
-              href="https://researchgate.net/profile/Fehintola-Victor"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-primary transition-colors"
-              aria-label="ResearchGate"
-            >
-              <FiLinkedin className="w-5 h-5" />
-              <span className="hidden sm:inline">ResearchGate</span>
-            </a>
-          </motion.div>
-        </motion.div>
-      </Container>
-    </Section>
+          <div className="mt-16 pt-8 border-t-2 border-dashed border-ink flex flex-col items-center">
+            <div className="font-mono text-xs font-bold text-ink-light uppercase mb-4">External Dossiers</div>
+            <div className="flex items-center justify-center gap-6 text-sm font-bold uppercase tracking-widest text-ink">
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-ledger underline decoration-2 underline-offset-4">
+                LinkedIn
+              </a>
+              <a href="https://scholar.google.com" target="_blank" rel="noopener noreferrer" className="hover:text-ledger underline decoration-2 underline-offset-4">
+                Google Scholar
+              </a>
+              <a href="https://researchgate.net" target="_blank" rel="noopener noreferrer" className="hover:text-ledger underline decoration-2 underline-offset-4">
+                ResearchGate
+              </a>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
   );
 }

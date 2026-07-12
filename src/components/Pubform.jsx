@@ -3,19 +3,25 @@ import { PUBLICATION_FILTERS } from "../data/publicationFilters";
 
 function PubForm({ activeFilter, onFilterChange, searchQuery, onSearchChange }) {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-4">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div className="mx-auto max-w-6xl px-4 py-8 border-b-2 border-ink bg-manila-dim">
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        
         {/* Search Input */}
         <div className="relative flex-1 max-w-md">
-          <FiSearch className="pointer-events-none absolute inset-y-0 left-4 flex items-center h-full w-4 text-slate-500" />
-          <input
-            type="search"
-            id="publication-search"
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search by title, author, or keyword..."
-            className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-800 bg-slate-900/80 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition-all duration-300 focus:border-primary focus:ring-1 focus:ring-primary/30 focus:bg-slate-900"
-          />
+          <label htmlFor="publication-search" className="sr-only">Search</label>
+          <div className="flex">
+            <span className="inline-flex items-center px-4 border-2 border-r-0 border-ink bg-manila text-ink">
+              <FiSearch className="h-5 w-5" />
+            </span>
+            <input
+              type="search"
+              id="publication-search"
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              placeholder="Search by title, author, or keyword..."
+              className="intake-input !border-l-0"
+            />
+          </div>
         </div>
 
         {/* Filter Tabs */}
@@ -33,10 +39,8 @@ function PubForm({ activeFilter, onFilterChange, searchQuery, onSearchChange }) 
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => onFilterChange(filter.id)}
-                className={`rounded-xl px-4 py-2 text-xs font-semibold tracking-wide transition-all duration-300 border ${
-                  isActive
-                    ? "border-primary bg-primary text-slate-900 shadow-lg shadow-primary/20"
-                    : "border-slate-800 bg-slate-900/60 text-slate-400 hover:border-slate-600 hover:text-slate-200"
+                className={`btn-typewriter !px-3 !py-1.5 !text-xs ${
+                  isActive ? "btn-typewriter-primary" : ""
                 }`}
               >
                 {filter.label}

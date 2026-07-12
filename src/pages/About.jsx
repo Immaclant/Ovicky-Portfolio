@@ -8,7 +8,7 @@ function About() {
   }, []);
 
   return (
-    <div className="bg-slate-950 min-h-screen">
+    <div className="bg-manila min-h-screen">
       <AboutHead />
       <AboutGallery />
     </div>

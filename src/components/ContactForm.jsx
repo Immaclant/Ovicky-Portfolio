@@ -4,11 +4,6 @@ import toast from "react-hot-toast";
 import { FiMail, FiMapPin, FiSend } from "react-icons/fi";
 import { CONTACT_EMAIL } from "../config/contact";
 
-const inputClassName =
-  "w-full rounded-xl border border-amber-500/40 bg-slate-900/95 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30";
-
-const labelClassName = "mb-2 block text-sm font-medium text-amber-200";
-
 function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
@@ -77,33 +72,31 @@ function ContactForm() {
   };
 
   return (
-    <section className="bg-linear-to-tl from-gray-800 to-black min-h-screen pb-16">
-      <div className="container mx-auto px-4 py-10 md:py-14">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-lg font-light tracking-wide text-yellow-500">
-            Contact
-          </p>
-          <h1 className="mt-2 text-4xl font-extrabold tracking-wide text-yellow-500 md:text-5xl">
-            Get In Touch
+    <section className="bg-manila min-h-screen pb-16 pt-24" id="contact">
+      <div className="container mx-auto px-4 py-10 md:py-14 max-w-6xl">
+        
+        <div className="mb-12 border-b-4 border-double border-ink pb-4">
+          <span className="folder-tab">Intake Form</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-black text-ink uppercase tracking-tight">
+            Correspondence
           </h1>
-          <p className="mt-4 text-gray-400">
-            Have a research collaboration, speaking request, or academic inquiry?
-            Send a message and I will respond as soon as possible.
+          <p className="mt-2 text-ink-light font-mono text-sm uppercase">
+            Submit inquiries for collaboration, speaking, or supervision.
           </p>
         </div>
 
-        <div className="mx-auto mt-10 grid max-w-6xl gap-8 lg:grid-cols-[1fr_1.2fr]">
-          <div className="space-y-4">
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
+        <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
+          <div className="flex flex-col gap-8">
+            <div className="border-2 border-ink p-6 bg-manila-dim shadow-[4px_4px_0px_#1A1A1A]">
               <div className="flex items-start gap-4">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-500/15 text-amber-400">
-                  <FiMail className="h-5 w-5" />
+                <span className="flex-shrink-0 text-stamp mt-1">
+                  <FiMail className="h-6 w-6" />
                 </span>
                 <div>
-                  <h2 className="font-semibold text-slate-100">Email</h2>
+                  <h2 className="font-serif font-bold text-ink uppercase tracking-wider mb-1">Email</h2>
                   <a
                     href={`mailto:${CONTACT_EMAIL}`}
-                    className="mt-1 block text-sm text-slate-400 transition hover:text-amber-400"
+                    className="block text-ink-light font-mono text-sm hover:text-ledger underline decoration-2 underline-offset-4"
                   >
                     {CONTACT_EMAIL}
                   </a>
@@ -111,17 +104,17 @@ function ContactForm() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
+            <div className="border-2 border-ink p-6 bg-manila-dim shadow-[4px_4px_0px_#1A1A1A]">
               <div className="flex items-start gap-4">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-500/15 text-amber-400">
-                  <FiMapPin className="h-5 w-5" />
+                <span className="flex-shrink-0 text-stamp mt-1">
+                  <FiMapPin className="h-6 w-6" />
                 </span>
                 <div>
-                  <h2 className="font-semibold text-slate-100">Location</h2>
-                  <p className="mt-1 text-sm leading-relaxed text-slate-400">
+                  <h2 className="font-serif font-bold text-ink uppercase tracking-wider mb-1">Location</h2>
+                  <p className="text-ink-light font-mono text-sm leading-relaxed">
                     Faculty of Education,<br />
-                    Federal College of Education (Special),<br />
-                    Oyo, Oyo State, Nigeria
+                    FCE (Special),<br />
+                    Oyo, Nigeria
                   </p>
                 </div>
               </div>
@@ -130,113 +123,102 @@ function ContactForm() {
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="rounded-2xl border border-amber-500/20 bg-slate-900/50 p-6 shadow-xl shadow-black/20 md:p-8"
+            className="border-2 border-ink p-8 bg-manila shadow-[8px_8px_0px_#1A1A1A] relative"
             noValidate
           >
-            <div className="grid gap-5 md:grid-cols-2">
+            {/* Form decorative stamp */}
+            <div className="absolute -top-4 -right-4 border-2 border-ink bg-manila px-3 py-1 font-mono text-xs font-bold uppercase transform rotate-3">
+              Official Use Only
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2">
               <div>
-                <label htmlFor="contact-name" className={labelClassName}>
-                  Full Name
+                <label htmlFor="contact-name" className="intake-label">
+                  01. FULL NAME
                 </label>
                 <input
                   id="contact-name"
                   type="text"
-                  className={inputClassName}
-                  placeholder="Your full name"
+                  className="intake-input"
+                  placeholder="Applicant Name"
                   {...register("name", {
                     required: "Please enter your name.",
-                    minLength: {
-                      value: 2,
-                      message: "Name must be at least 2 characters.",
-                    },
+                    minLength: { value: 2, message: "Name must be at least 2 characters." },
                   })}
                 />
                 {errors.name && (
-                  <p className="mt-1 text-sm text-red-400">{errors.name.message}</p>
+                  <p className="mt-2 font-mono text-xs text-stamp uppercase font-bold bg-[#D34836]/10 inline-block px-2">{errors.name.message}</p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="contact-email" className={labelClassName}>
-                  Email Address
+                <label htmlFor="contact-email" className="intake-label">
+                  02. EMAIL ADDRESS
                 </label>
                 <input
                   id="contact-email"
                   type="email"
-                  className={inputClassName}
-                  placeholder="you@example.com"
+                  className="intake-input"
+                  placeholder="name@institution.edu"
                   {...register("email", {
                     required: "Please enter your email address.",
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Please enter a valid email address.",
-                    },
+                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Valid email required." },
                   })}
                 />
                 {errors.email && (
-                  <p className="mt-1 text-sm text-red-400">
-                    {errors.email.message}
-                  </p>
+                  <p className="mt-2 font-mono text-xs text-stamp uppercase font-bold bg-[#D34836]/10 inline-block px-2">{errors.email.message}</p>
                 )}
               </div>
             </div>
 
-            <div className="mt-5">
-              <label htmlFor="contact-subject" className={labelClassName}>
-                Subject
+            <div className="mt-6">
+              <label htmlFor="contact-subject" className="intake-label">
+                03. SUBJECT
               </label>
               <input
                 id="contact-subject"
                 type="text"
-                className={inputClassName}
-                placeholder="What is this about?"
+                className="intake-input"
+                placeholder="Nature of inquiry"
                 {...register("subject", {
                   required: "Please enter a subject.",
-                  minLength: {
-                    value: 3,
-                    message: "Subject must be at least 3 characters.",
-                  },
+                  minLength: { value: 3, message: "Subject must be at least 3 characters." },
                 })}
               />
               {errors.subject && (
-                <p className="mt-1 text-sm text-red-400">
-                  {errors.subject.message}
-                </p>
+                <p className="mt-2 font-mono text-xs text-stamp uppercase font-bold bg-[#D34836]/10 inline-block px-2">{errors.subject.message}</p>
               )}
             </div>
 
-            <div className="mt-5">
-              <label htmlFor="contact-message" className={labelClassName}>
-                Message
+            <div className="mt-6">
+              <label htmlFor="contact-message" className="intake-label">
+                04. MESSAGE / PROPOSAL
               </label>
               <textarea
                 id="contact-message"
                 rows={6}
-                className={`${inputClassName} resize-y min-h-[160px]`}
-                placeholder="Write your message here..."
+                className="intake-input resize-y min-h-[160px]"
+                placeholder="Detail your request..."
                 {...register("message", {
                   required: "Please enter your message.",
-                  minLength: {
-                    value: 10,
-                    message: "Message must be at least 10 characters.",
-                  },
+                  minLength: { value: 10, message: "Message must be at least 10 characters." },
                 })}
               />
               {errors.message && (
-                <p className="mt-1 text-sm text-red-400">
-                  {errors.message.message}
-                </p>
+                <p className="mt-2 font-mono text-xs text-stamp uppercase font-bold bg-[#D34836]/10 inline-block px-2">{errors.message.message}</p>
               )}
             </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-amber-400 bg-amber-500 px-6 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <FiSend className="h-4 w-4" />
-              {isSubmitting ? "Sending..." : "Send Message"}
-            </button>
+            <div className="mt-10 border-t-2 border-ink pt-6 flex justify-end">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-typewriter btn-typewriter-primary w-full sm:w-auto"
+              >
+                {isSubmitting ? "PROCESSING..." : "SUBMIT INQUIRY"}
+                <FiSend className="h-4 w-4 ml-2" />
+              </button>
+            </div>
           </form>
         </div>
       </div>

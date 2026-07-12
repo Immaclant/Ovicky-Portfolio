@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 import toast from "react-hot-toast";
 import { FiLogOut, FiPlus, FiTrash2, FiUploadCloud, FiBookOpen, FiFileText, FiAward } from "react-icons/fi";
-import { Button } from "../components/ui/Button";
-import { Card, CardHeader, CardTitle, CardContent } from "../components/ui/Card";
 
 function Admin() {
   const [user, setUser] = useState(null);
@@ -47,7 +45,6 @@ function Admin() {
   const [listLoading, setListLoading] = useState(false);
 
   useEffect(() => {
-    // Check active session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       setLoading(false);
@@ -56,7 +53,6 @@ function Admin() {
       }
     });
 
-    // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
       if (session?.user) {
@@ -141,7 +137,6 @@ function Admin() {
     let uploadedPdfUrl = "";
 
     try {
-      // 1. Upload PDF if selected
       if (pdfFile) {
         setUploadingPdf(true);
         const fileExt = pdfFile.name.split(".").pop();
@@ -165,11 +160,9 @@ function Admin() {
         setUploadingPdf(false);
       }
 
-      // 2. Parse authors and editors into arrays
       const authorList = authors.split(",").map(a => a.trim()).filter(Boolean);
       const editorList = editors ? editors.split(",").map(e => e.trim()).filter(Boolean) : [];
 
-      // 3. Prepare entry payload
       const payload = {
         title,
         authors: authorList,
@@ -181,7 +174,6 @@ function Admin() {
         pdf_url: uploadedPdfUrl || null,
       };
 
-      // Category specific values
       if (category === "journal") {
         payload.journal = journal;
         payload.volume = volume;
@@ -202,7 +194,6 @@ function Admin() {
           projectStatus === "ongoing" ? "Ongoing Research" : "Completed Research";
       }
 
-      // 4. Save to Database
       const { error: insertError } = await supabase
         .from("publications")
         .insert(payload);
@@ -211,7 +202,6 @@ function Admin() {
 
       toast.success("Publication added successfully.");
       
-      // Reset form
       setTitle("");
       setPdfFile(null);
       setJournal("");
@@ -226,7 +216,6 @@ function Admin() {
       setDoi("");
       setUrl("");
       
-      // Refresh list
       fetchPublications();
     } catch (err) {
       console.error(err);
@@ -238,10 +227,9 @@ function Admin() {
   };
 
   const handleDeletePublication = async (id, pdfUrl) => {
-    if (!window.confirm("Are you sure you want to delete this publication?")) return;
+    if (!window.confirm("Are you sure you want to delete this record?")) return;
 
     try {
-      // If it has an uploaded PDF, we can optionally delete it from Storage
       if (pdfUrl) {
         try {
           const urlParts = pdfUrl.split("/storage/v1/object/public/publication-pdfs/");
@@ -260,11 +248,11 @@ function Admin() {
         .eq("id", id);
 
       if (error) throw error;
-      toast.success("Publication deleted.");
+      toast.success("Record expunged.");
       fetchPublications();
     } catch (err) {
       console.error(err);
-      toast.error("Failed to delete publication.");
+      toast.error("Failed to delete record.");
     }
   };
 
@@ -275,8 +263,8 @@ function Admin() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-950 text-slate-400">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+      <div className="flex min-h-screen items-center justify-center bg-manila text-ink font-mono uppercase font-bold">
+        Loading System...
       </div>
     );
   }
@@ -286,56 +274,54 @@ function Admin() {
   // ----------------------------------------------------
   if (!user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4 py-20 relative">
-        {/* Glow effect */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-80 h-80 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="flex min-h-screen items-center justify-center bg-manila px-4 py-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik0gNDAgMCBMIDAgMCBMIDAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNiwgMjYsIDI2LCAwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjwvc3ZnPg==')]">
         
-        <Card variant="glass" className="w-full max-w-md relative z-10">
-          <CardHeader className="text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/15 text-primary mb-4">
-              <FiAward className="h-6 w-6" />
-            </div>
-            <CardTitle className="text-2xl font-serif">Admin Login</CardTitle>
-            <p className="text-sm text-slate-400 mt-1">
-              Sign in to manage your portfolio publications
+        <div className="index-card w-full max-w-md bg-manila-dim p-10 relative">
+          <div className="absolute top-0 right-0 m-4">
+            <FiAward className="h-8 w-8 text-stamp" />
+          </div>
+
+          <div className="mb-8 border-b-2 border-ink pb-4">
+            <h2 className="text-3xl font-serif font-black text-ink uppercase tracking-tight">System Login</h2>
+            <p className="font-mono text-xs text-ink-light mt-2 uppercase font-bold">
+              Authorized Personnel Only
             </p>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
-                <input
-                  type="email"
-                  className="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition duration-300"
-                  placeholder="admin@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
+          </div>
 
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">Password</label>
-                <input
-                  type="password"
-                  className="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition duration-300"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label className="intake-label">UID / Email</label>
+              <input
+                type="email"
+                className="intake-input bg-manila"
+                placeholder="admin@institution.edu"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
 
-              <button
-                type="submit"
-                disabled={authLoading}
-                className="w-full mt-4 flex justify-center py-3 px-4 rounded-xl border border-primary bg-primary text-dark font-semibold hover:bg-primary-light transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 disabled:opacity-60"
-              >
-                {authLoading ? "Signing In..." : "Sign In"}
-              </button>
-            </form>
-          </CardContent>
-        </Card>
+            <div>
+              <label className="intake-label">Access Key</label>
+              <input
+                type="password"
+                className="intake-input bg-manila"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={authLoading}
+              className="w-full btn-typewriter btn-typewriter-primary mt-4 disabled:opacity-60"
+            >
+              {authLoading ? "AUTHENTICATING..." : "VERIFY IDENTITY"}
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
@@ -344,373 +330,287 @@ function Admin() {
   // ADMIN DASHBOARD
   // ----------------------------------------------------
   return (
-    <div className="bg-slate-950 text-slate-100 min-h-screen py-24 px-4 sm:px-6 lg:px-8">
+    <div className="bg-manila text-ink min-h-screen py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800/80 pb-6 mb-10">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b-4 border-double border-ink pb-6 mb-10">
           <div>
-            <h1 className="text-3xl font-serif font-bold text-slate-100">Portfolio Dashboard</h1>
-            <p className="text-sm text-slate-400 mt-1">Logged in as {user.email}</p>
+            <span className="folder-tab absolute -mt-10 bg-manila-dim">Internal System</span>
+            <h1 className="text-3xl font-serif font-black uppercase tracking-tight">Records Management</h1>
+            <p className="font-mono text-xs text-ink-light mt-2 font-bold uppercase">Active Session: {user.email}</p>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
+          <button
             onClick={handleLogout}
-            leftIcon={<FiLogOut />}
-            className="border-slate-800 hover:bg-slate-900 text-slate-300 hover:text-white"
+            className="btn-typewriter text-xs !py-1 !px-3"
           >
-            Sign Out
-          </Button>
+            <FiLogOut className="mr-2" />
+            Terminate Session
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10">
           {/* Left Column: Form */}
           <div>
-            <Card variant="default" className="sticky top-28 bg-slate-900/40 border border-slate-800/80">
-              <CardHeader>
-                <CardTitle className="text-xl font-serif text-primary flex items-center gap-2">
-                  <FiPlus className="text-primary" /> Add New Publication
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleAddPublication} className="space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Category</label>
-                      <select
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-primary transition duration-300"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                      >
-                        <option value="journal">Journal Article</option>
-                        <option value="book">Book Chapter</option>
-                        <option value="conference">Conference Presentation</option>
-                        <option value="research">Research Project</option>
-                      </select>
-                    </div>
+            <div className="index-card bg-manila-dim p-8 sticky top-28">
+              <div className="mb-6 border-b-2 border-ink pb-4 flex items-center justify-between">
+                <h2 className="text-xl font-serif font-black uppercase tracking-wide">
+                  Document Intake
+                </h2>
+                <FiPlus className="text-stamp h-6 w-6" />
+              </div>
 
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Promotion Period</label>
-                      <select
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-primary transition duration-300"
-                        value={period}
-                        onChange={(e) => setPeriod(e.target.value)}
-                      >
-                        <option value="after">After Last Promotion</option>
-                        <option value="before">Before Last Promotion</option>
-                      </select>
-                    </div>
+              <form onSubmit={handleAddPublication} className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="intake-label">Document Category</label>
+                    <select
+                      className="intake-input bg-manila"
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                    >
+                      <option value="journal">Journal Article</option>
+                      <option value="book">Book Chapter</option>
+                      <option value="conference">Conference Presentation</option>
+                      <option value="research">Research Project</option>
+                    </select>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Publication Title</label>
+                    <label className="intake-label">Promotion Period</label>
+                    <select
+                      className="intake-input bg-manila"
+                      value={period}
+                      onChange={(e) => setPeriod(e.target.value)}
+                    >
+                      <option value="after">After Last Promotion</option>
+                      <option value="before">Before Last Promotion</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="intake-label">Publication Title</label>
+                  <input
+                    type="text"
+                    className="intake-input bg-manila"
+                    placeholder="Enter the document title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="sm:col-span-2">
+                    <label className="intake-label">Authors (Comma-separated)</label>
                     <input
                       type="text"
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                      placeholder="Enter the title of the document"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      className="intake-input bg-manila"
+                      placeholder="e.g. Fehintola V. A."
+                      value={authors}
+                      onChange={(e) => setAuthors(e.target.value)}
                       required
                     />
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="sm:col-span-2">
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Authors (Comma-separated)</label>
-                      <input
-                        type="text"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                        placeholder="e.g. Fehintola V. A., Popoola O."
-                        value={authors}
-                        onChange={(e) => setAuthors(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Year</label>
-                      <input
-                        type="number"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                        placeholder="Year"
-                        value={year}
-                        onChange={(e) => setYear(e.target.value)}
-                        required
-                      />
-                    </div>
+                  <div>
+                    <label className="intake-label">Year</label>
+                    <input
+                      type="number"
+                      className="intake-input bg-manila font-mono"
+                      placeholder="2024"
+                      value={year}
+                      onChange={(e) => setYear(e.target.value)}
+                      required
+                    />
                   </div>
+                </div>
 
-                  {/* ---------------------------------------------------- */}
-                  {/* CATEGORY SPECIFIC FIELDS */}
-                  {/* ---------------------------------------------------- */}
+                {/* ---------------------------------------------------- */}
+                {/* CATEGORY SPECIFIC FIELDS */}
+                {/* ---------------------------------------------------- */}
+                <div className="p-4 border-2 border-dashed border-ink bg-manila/50">
+                  <div className="font-mono text-xs font-bold uppercase text-stamp mb-4">Metadata Specifics</div>
+                  
                   {category === "journal" && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-l-2 border-primary/50 pl-4 py-2 space-y-2 sm:space-y-0">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="sm:col-span-2">
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Journal Name</label>
-                        <input
-                          type="text"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                          placeholder="Counselling and Behavioral Studies Journal"
-                          value={journal}
-                          onChange={(e) => setJournal(e.target.value)}
-                        />
+                        <label className="intake-label">Journal Name</label>
+                        <input type="text" className="intake-input bg-manila" value={journal} onChange={(e) => setJournal(e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Volume</label>
-                        <input
-                          type="text"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                          placeholder="e.g. 10"
-                          value={volume}
-                          onChange={(e) => setVolume(e.target.value)}
-                        />
+                        <label className="intake-label">Volume</label>
+                        <input type="text" className="intake-input bg-manila" value={volume} onChange={(e) => setVolume(e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Issue</label>
-                        <input
-                          type="text"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                          placeholder="e.g. 2"
-                          value={issue}
-                          onChange={(e) => setIssue(e.target.value)}
-                        />
+                        <label className="intake-label">Issue</label>
+                        <input type="text" className="intake-input bg-manila" value={issue} onChange={(e) => setIssue(e.target.value)} />
                       </div>
                       <div className="sm:col-span-2">
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Pages</label>
-                        <input
-                          type="text"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                          placeholder="e.g. 357-369"
-                          value={pages}
-                          onChange={(e) => setPages(e.target.value)}
-                        />
+                        <label className="intake-label">Pages</label>
+                        <input type="text" className="intake-input bg-manila" value={pages} onChange={(e) => setPages(e.target.value)} />
                       </div>
                     </div>
                   )}
 
                   {category === "book" && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-l-2 border-primary/50 pl-4 py-2 space-y-2 sm:space-y-0">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="sm:col-span-2">
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Book Title</label>
-                        <input
-                          type="text"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                          placeholder="A Festschrift in Honour of Professor Usman..."
-                          value={book}
-                          onChange={(e) => setBook(e.target.value)}
-                        />
+                        <label className="intake-label">Book Title</label>
+                        <input type="text" className="intake-input bg-manila" value={book} onChange={(e) => setBook(e.target.value)} />
                       </div>
                       <div className="sm:col-span-2">
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Editors (Comma-separated)</label>
-                        <input
-                          type="text"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                          placeholder="e.g. Ayantayo J. K., Sanusi R. A."
-                          value={editors}
-                          onChange={(e) => setEditors(e.target.value)}
-                        />
+                        <label className="intake-label">Editors (Comma-separated)</label>
+                        <input type="text" className="intake-input bg-manila" value={editors} onChange={(e) => setEditors(e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Pages</label>
-                        <input
-                          type="text"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                          placeholder="e.g. 97-105"
-                          value={pages}
-                          onChange={(e) => setPages(e.target.value)}
-                        />
+                        <label className="intake-label">Pages</label>
+                        <input type="text" className="intake-input bg-manila" value={pages} onChange={(e) => setPages(e.target.value)} />
                       </div>
                     </div>
                   )}
 
                   {category === "conference" && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-l-2 border-primary/50 pl-4 py-2 space-y-2 sm:space-y-0">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="sm:col-span-2">
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Conference / Event Name</label>
-                        <input
-                          type="text"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                          placeholder="Annual Conference of Counselling Association of Nigeria"
-                          value={event}
-                          onChange={(e) => setEvent(e.target.value)}
-                        />
+                        <label className="intake-label">Conference Name</label>
+                        <input type="text" className="intake-input bg-manila" value={event} onChange={(e) => setEvent(e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Date Description</label>
-                        <input
-                          type="text"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                          placeholder="e.g. March 8-10, 2022"
-                          value={date}
-                          onChange={(e) => setDate(e.target.value)}
-                        />
+                        <label className="intake-label">Date</label>
+                        <input type="text" className="intake-input bg-manila" value={date} onChange={(e) => setDate(e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Venue</label>
-                        <input
-                          type="text"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                          placeholder="1000 Capacity Hall, Polytechnic Ibadan"
-                          value={venue}
-                          onChange={(e) => setVenue(e.target.value)}
-                        />
+                        <label className="intake-label">Venue</label>
+                        <input type="text" className="intake-input bg-manila" value={venue} onChange={(e) => setVenue(e.target.value)} />
                       </div>
                     </div>
                   )}
 
                   {category === "research" && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-l-2 border-primary/50 pl-4 py-2 space-y-2 sm:space-y-0">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Lead Researcher</label>
-                        <input
-                          type="text"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-primary transition duration-300"
-                          value={projectAuthor}
-                          onChange={(e) => setProjectAuthor(e.target.value)}
-                        />
+                        <label className="intake-label">Lead Researcher</label>
+                        <input type="text" className="intake-input bg-manila" value={projectAuthor} onChange={(e) => setProjectAuthor(e.target.value)} />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Project Status</label>
-                        <select
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-primary transition duration-300"
-                          value={projectStatus}
-                          onChange={(e) => setProjectStatus(e.target.value)}
-                        >
-                          <option value="proposal">Proposed Research</option>
-                          <option value="ongoing">Ongoing Research</option>
-                          <option value="completed">Completed Research</option>
+                        <label className="intake-label">Status</label>
+                        <select className="intake-input bg-manila" value={projectStatus} onChange={(e) => setProjectStatus(e.target.value)}>
+                          <option value="proposal">Proposed</option>
+                          <option value="ongoing">Ongoing</option>
+                          <option value="completed">Completed</option>
                         </select>
                       </div>
                     </div>
                   )}
+                </div>
 
-                  {/* ---------------------------------------------------- */}
-                  {/* FILE UPLOAD AND LINKS */}
-                  {/* ---------------------------------------------------- */}
-                  <div className="border-t border-slate-800/80 pt-4 space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">DOI Link (Optional)</label>
-                        <input
-                          type="url"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                          placeholder="https://doi.org/10.xxxx/..."
-                          value={doi}
-                          onChange={(e) => setDoi(e.target.value)}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Google Scholar / URL (Optional)</label>
-                        <input
-                          type="url"
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300"
-                          placeholder="https://scholar.google.com/..."
-                          value={url}
-                          onChange={(e) => setUrl(e.target.value)}
-                        />
-                      </div>
-                    </div>
-
+                {/* ---------------------------------------------------- */}
+                {/* FILE UPLOAD AND LINKS */}
+                {/* ---------------------------------------------------- */}
+                <div className="pt-4 border-t-2 border-ink space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Upload Publication PDF Document</label>
-                      <div className="mt-2 flex justify-center rounded-2xl border-2 border-dashed border-slate-800 bg-slate-950 px-6 py-8 hover:border-primary/50 transition-colors duration-300">
-                        <div className="text-center">
-                          <FiUploadCloud className="mx-auto h-12 w-12 text-slate-500 mb-3" />
-                          <div className="flex text-sm text-slate-400 justify-center">
-                            <label className="relative cursor-pointer rounded-md font-semibold text-primary hover:text-primary-light focus-within:outline-none">
-                              <span>Select a PDF file</span>
-                              <input
-                                type="file"
-                                accept=".pdf"
-                                className="sr-only"
-                                onChange={handleFileChange}
-                              />
-                            </label>
-                          </div>
-                          <p className="text-xs text-slate-500 mt-1">PDF up to 20MB</p>
-                          {pdfFile && (
-                            <div className="mt-4 p-2 bg-primary/10 border border-primary/20 rounded-xl inline-flex items-center gap-2 text-xs font-semibold text-primary">
-                              <FiFileText /> {pdfFile.name}
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                      <label className="intake-label">DOI Link</label>
+                      <input type="url" className="intake-input bg-manila" placeholder="https://doi.org/..." value={doi} onChange={(e) => setDoi(e.target.value)} />
+                    </div>
+                    <div>
+                      <label className="intake-label">External URL</label>
+                      <input type="url" className="intake-input bg-manila" placeholder="https://..." value={url} onChange={(e) => setUrl(e.target.value)} />
                     </div>
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={formSubmitting || uploadingPdf}
-                    className="w-full py-4 px-6 rounded-xl border border-primary bg-primary text-dark font-semibold hover:bg-primary-light transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {formSubmitting ? (uploadingPdf ? "Uploading Document..." : "Saving Publication...") : "Add to Research Portfolio"}
-                  </button>
-                </form>
-              </CardContent>
-            </Card>
+                  <div>
+                    <label className="intake-label">PDF Attachment</label>
+                    <div className="mt-2 border-2 border-ink bg-manila p-6 hover:bg-manila-dim transition cursor-pointer relative">
+                      <input type="file" accept=".pdf" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handleFileChange} />
+                      <div className="text-center">
+                        <FiUploadCloud className="mx-auto h-8 w-8 text-ink mb-2" />
+                        <span className="font-mono text-sm font-bold uppercase text-ink underline">Click to Browse</span>
+                        {pdfFile && (
+                          <div className="mt-3 font-mono text-xs font-bold text-stamp bg-[#D34836]/10 py-1 px-2 border border-stamp inline-block">
+                            <FiFileText className="inline mr-1" /> {pdfFile.name}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={formSubmitting || uploadingPdf}
+                  className="w-full btn-typewriter btn-typewriter-primary disabled:opacity-50"
+                >
+                  {formSubmitting ? (uploadingPdf ? "UPLOADING..." : "WRITING TO LEDGER...") : "FILE RECORD"}
+                </button>
+              </form>
+            </div>
           </div>
 
           {/* Right Column: List & Management */}
           <div>
-            <Card variant="glass" className="h-full bg-slate-900/20 border border-slate-800/50">
-              <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <CardTitle className="text-xl font-serif text-slate-100 flex items-center gap-2">
-                  <FiBookOpen className="text-primary" /> Active Portfolio ({publications.length})
-                </CardTitle>
-                <input
-                  type="text"
-                  placeholder="Search publications..."
-                  className="px-3 py-1.5 text-sm rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-primary transition duration-300 w-full sm:w-48"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </CardHeader>
-              <CardContent className="mt-4">
+            <div className="index-card h-full p-8 flex flex-col">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b-2 border-ink pb-4 mb-6">
+                <h2 className="text-xl font-serif font-black uppercase tracking-wide flex items-center gap-2">
+                  <FiBookOpen className="text-stamp" /> Master Ledger
+                </h2>
+                <div className="flex bg-manila border-2 border-ink">
+                  <span className="px-2 py-1 flex items-center border-r-2 border-ink"><FiSearch className="w-4 h-4" /></span>
+                  <input
+                    type="text"
+                    placeholder="Search ID..."
+                    className="bg-transparent font-mono text-sm px-2 outline-none w-32"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+              </div>
+              
+              <div className="flex-1">
                 {listLoading ? (
-                  <div className="flex py-20 items-center justify-center text-slate-500 text-sm">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mr-3"></div>
-                    Fetching database...
+                  <div className="flex py-20 items-center justify-center font-mono text-sm font-bold uppercase">
+                    Reading Ledger...
                   </div>
                 ) : filteredPublications.length === 0 ? (
-                  <div className="text-center py-20 text-slate-500 text-sm border border-dashed border-slate-800/80 rounded-2xl">
-                    No publications found in Supabase.
+                  <div className="text-center py-20 font-mono text-sm border-2 border-dashed border-ink bg-manila-dim">
+                    NO RECORDS FOUND
                   </div>
                 ) : (
-                  <div className="space-y-4 max-h-[750px] overflow-y-auto pr-2 custom-scrollbar">
+                  <div className="space-y-4 max-h-[800px] overflow-y-auto pr-2 custom-scrollbar">
                     {filteredPublications.map((pub) => (
-                      <div
-                        key={pub.id}
-                        className="p-4 rounded-xl border border-slate-800/60 bg-slate-950/40 hover:border-slate-800 transition duration-300 flex justify-between items-start gap-4"
-                      >
-                        <div className="space-y-1">
-                          <span className="inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-800 text-slate-300">
-                            {pub.category === "research" ? "project" : pub.category}
-                          </span>
-                          <span className="ml-2 inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-900 text-primary">
-                            {pub.period === "after" ? "After Last Promotion" : "Before Last Promotion"}
-                          </span>
-                          <h4 className="font-medium text-slate-100 text-sm leading-snug">{pub.title}</h4>
-                          <p className="text-xs text-slate-400">
-                            {pub.authors.join(", ")} ({pub.year})
-                          </p>
-                          {pub.pdf_url && (
-                            <span className="inline-flex items-center gap-1 text-[10px] text-green-400 font-semibold mt-1">
-                              ✓ PDF File Attached
-                            </span>
-                          )}
+                      <div key={pub.id} className="p-4 border-2 border-ink bg-manila-dim relative">
+                        <div className="flex justify-between items-start gap-4">
+                          <div>
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="px-2 py-0.5 border border-ink font-mono text-[10px] font-bold uppercase bg-manila text-ink">
+                                TYPE: {pub.category}
+                              </span>
+                              {pub.pdf_url && (
+                                <span className="text-stamp font-mono text-[10px] font-bold uppercase flex items-center gap-1">
+                                  <FiFileText /> ATTACHED
+                                </span>
+                              )}
+                            </div>
+                            <h4 className="font-bold text-ink text-sm leading-snug uppercase">{pub.title}</h4>
+                            <p className="font-mono text-xs text-ink-light mt-2">
+                              {pub.authors.join(", ")} | YR: {pub.year}
+                            </p>
+                          </div>
+                          <button
+                            onClick={() => handleDeletePublication(pub.id, pub.pdf_url)}
+                            className="p-2 border-2 border-ink hover:bg-stamp hover:text-manila hover:border-stamp transition-colors"
+                            title="Expunge Record"
+                          >
+                            <FiTrash2 className="w-4 h-4" />
+                          </button>
                         </div>
-                        <button
-                          onClick={() => handleDeletePublication(pub.id, pub.pdf_url)}
-                          className="p-2 rounded-lg bg-red-950/20 text-red-400 hover:bg-red-950 hover:text-red-200 border border-red-900/30 transition-all"
-                          title="Delete from Database"
-                        >
-                          <FiTrash2 className="w-4 h-4" />
-                        </button>
                       </div>
                     ))}
                   </div>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
       </div>

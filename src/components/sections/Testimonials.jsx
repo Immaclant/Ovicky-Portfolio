@@ -1,11 +1,5 @@
-"use client";
-
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { FiStar, FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { Section, Container, SectionHeader } from "../ui/Section";
-import { Card } from "../ui/Card";
-import { Button } from "../ui/Button";
+import { motion, AnimatePresence } from "framer-motion";
 
 const testimonials = [
   {
@@ -14,8 +8,6 @@ const testimonials = [
     author: "Prof. Adebayo Olayiwola",
     role: "Professor of Educational Psychology",
     institution: "University of Ibadan",
-    rating: 5,
-    avatar: null,
   },
   {
     id: 2,
@@ -23,8 +15,6 @@ const testimonials = [
     author: "Dr. Grace Adebayo",
     role: "Senior Lecturer",
     institution: "Federal University of Technology, Akure",
-    rating: 5,
-    avatar: null,
   },
   {
     id: 3,
@@ -32,134 +22,91 @@ const testimonials = [
     author: "Prof. Kwame Asante",
     role: "Dean, Faculty of Education",
     institution: "University of Ghana",
-    rating: 5,
-    avatar: null,
-  },
-  {
-    id: 4,
-    text: "Dr. Victor brings a rare combination of rigorous methodology and genuine concern for human development. His work on entrepreneurship education is transforming lives.",
-    author: "Dr. Fatima Bello",
-    role: "Research Fellow",
-    institution: "African Population and Health Research Center",
-    rating: 5,
-    avatar: null,
   },
 ];
 
 export function Testimonials() {
   const [current, setCurrent] = useState(0);
 
-  const next = () => setCurrent((prev) => (prev + 1) % testimonials.length);
-  const prev = () =>
-    setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  const nextSlide = () =>
+    setCurrent((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+  const prevSlide = () =>
+    setCurrent((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
 
   useEffect(() => {
-    const id = setInterval(
-      () => setCurrent((prev) => (prev + 1) % testimonials.length),
-      6000,
-    );
-    return () => clearInterval(id);
-  }, []);
+    const timer = setInterval(nextSlide, 8000);
+    return () => clearInterval(timer);
+  }, [current]);
+
+  const t = testimonials[current];
 
   return (
-    <Section size="lg" background="muted" id="testimonials">
-      <Container>
-        <SectionHeader
-          title="Trusted by Colleagues & Students"
-          subtitle="Testimonials"
-          description="What peers, students, and collaborators say about working with Dr. Victor"
-        />
+    <section className="section bg-manila border-y-4 border-double border-ink" id="testimonials">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        
+        <div className="mb-12">
+          <span className="folder-tab">Peer Review</span>
+          <h2 className="font-serif font-black text-ink tracking-tight uppercase border-b-2 border-ink pb-4" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
+            Academic Endorsements
+          </h2>
+        </div>
 
-        <div className="relative">
-          <div className="overflow-hidden">
+        <div className="relative min-h-[300px] border-2 border-ink bg-manila-dim p-8 md:p-12">
+          {/* Decorative pin holes */}
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-ink/10 shadow-[inset_1px_1px_2px_rgba(0,0,0,0.5)]" />
+          
+          <AnimatePresence mode="wait">
             <motion.div
-              className="flex"
-              animate={{ x: `-${current * 100}%` }}
-              transition={{ type: "spring", stiffness: 100, damping: 20 }}
+              key={current}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col h-full justify-center"
             >
-              {testimonials.map((testimonial) => (
-                <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
-                  <Card className="h-full">
-                    <div className="flex items-center gap-1 mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <FiStar key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                      ))}
-                    </div>
-                    <motion.p
-                      className="text-lg md:text-xl text-slate-300 leading-relaxed mb-6 italic"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      "{testimonial.text}"
-                    </motion.p>
-                    <div className="border-t border-slate-800/50 pt-4">
-                      <motion.div
-                        className="flex items-center gap-3"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                      >
-                        <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg">
-                          {testimonial.author.charAt(0)}
-                        </div>
-                        <div>
-                          <div className="font-semibold text-slate-100">{testimonial.author}</div>
-                          <div className="text-sm text-slate-400">{testimonial.role}</div>
-                          <div className="text-xs text-slate-500">{testimonial.institution}</div>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </Card>
+              <div className="font-serif text-[4rem] text-stamp leading-none mb-4">
+                &ldquo;
+              </div>
+
+              <p className="font-serif italic text-ink text-xl md:text-2xl leading-relaxed mb-8 font-bold">
+                {t.text}
+              </p>
+
+              <div className="border-t-2 border-dashed border-ink pt-6 mt-auto">
+                <p className="font-bold text-ink text-sm uppercase tracking-widest">{t.author}</p>
+                <div className="font-mono text-xs text-ink-light mt-2 flex flex-col gap-1">
+                  <span>ROLE: {t.role}</span>
+                  <span>INST: {t.institution}</span>
                 </div>
-              ))}
+              </div>
             </motion.div>
+          </AnimatePresence>
+        </div>
+
+        <div className="flex items-center justify-between mt-6">
+          <div className="font-mono text-sm font-bold text-ink-light">
+            PAGE 0{current + 1} / 0{testimonials.length}
           </div>
-
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-12 h-12 p-0"
-              onClick={prev}
+          
+          <div className="flex gap-4">
+            <button
+              onClick={prevSlide}
+              className="btn-typewriter !py-2 !px-4"
               aria-label="Previous testimonial"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
             >
-              <FiChevronLeft className="w-5 h-5" />
-            </Button>
-
-            <div className="flex gap-2" role="tablist" aria-label="Testimonial navigation">
-              {testimonials.map((_, index) => (
-                <motion.button
-                  key={index}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    current === index ? "bg-primary w-8" : "bg-slate-600 hover:bg-slate-500"
-                  }`}
-                  onClick={() => setCurrent(index)}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                  aria-selected={current === index}
-                  role="tab"
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.9 }}
-                />
-              ))}
-            </div>
-
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-12 h-12 p-0"
-              onClick={next}
+              ←
+            </button>
+            <button
+              onClick={nextSlide}
+              className="btn-typewriter !py-2 !px-4"
               aria-label="Next testimonial"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
             >
-              <FiChevronRight className="w-5 h-5" />
-            </Button>
+              →
+            </button>
           </div>
         </div>
-      </Container>
-    </Section>
+
+      </div>
+    </section>
   );
 }

@@ -1,90 +1,96 @@
-import { motion } from "framer-motion";
 import { FiHeart, FiUsers, FiBook, FiGlobe, FiTarget } from "react-icons/fi";
 import { FaBrain } from "react-icons/fa";
-import { Section, Container, SectionHeader } from "../ui/Section";
-import { Card } from "../ui/Card";
 
 const researchAreas = [
   {
     icon: FaBrain,
+    ref: "PSY-01",
     title: "Educational Psychology",
-    description: "Investigating cognitive and affective factors influencing learning outcomes, motivation, and academic adjustment across diverse populations.",
-    topics: ["Motivation", "Self-Efficacy", "Academic Adjustment", "Learning Strategies"],
+    description: "Investigating cognitive and affective factors influencing learning outcomes, motivation, and academic adjustment.",
+    topics: ["Motivation", "Self-Efficacy", "Academic Adjustment"],
   },
   {
     icon: FiHeart,
-    title: "Positive Psychology & Wellbeing",
-    description: "Examining psychological well-being, resilience, and positive psychological interventions in educational and organizational contexts.",
-    topics: ["Resilience", "Well-being", "Positive Interventions", "Mental Health"],
+    ref: "PSY-02",
+    title: "Positive Psychology",
+    description: "Examining psychological well-being, resilience, and positive interventions in educational contexts.",
+    topics: ["Resilience", "Well-being", "Interventions"],
   },
   {
     icon: FiUsers,
-    title: "Social Psychology in Education",
-    description: "Studying social influences on student behavior, including peer pressure, family dynamics, and cultural factors.",
-    topics: ["Peer Influence", "Family Dynamics", "Cultural Values", "Social Support"],
+    ref: "SOC-01",
+    title: "Social Psychology",
+    description: "Studying social influences on student behavior, including peer pressure, family dynamics, and culture.",
+    topics: ["Peer Influence", "Family Dynamics", "Culture"],
   },
   {
     icon: FiBook,
-    title: "Entrepreneurship Education",
-    description: "Developing and evaluating psychological training programs to foster entrepreneurial motivation and organizational success.",
-    topics: ["Goal Setting", "Relational Intelligence", "Entrepreneurial Intention", "Business Success"],
+    ref: "EDU-01",
+    title: "Entrepreneurship Edu",
+    description: "Evaluating psychological training programs to foster entrepreneurial motivation and success.",
+    topics: ["Goal Setting", "Relational Intelligence"],
   },
   {
     icon: FiGlobe,
-    title: "Digital Technology & Learning",
-    description: "Exploring the impact of digital technologies, social media, and AI on student engagement, anxiety, and academic performance.",
-    topics: ["Social Media", "Digital Learning", "AI in Education", "Cyberbullying"],
+    ref: "TECH-01",
+    title: "Digital Learning",
+    description: "Exploring the impact of digital technologies, social media, and AI on student engagement and anxiety.",
+    topics: ["Social Media", "AI in Ed", "Cyberbullying"],
   },
   {
     icon: FiTarget,
+    ref: "EDU-02",
     title: "Inclusive Education",
-    description: "Researching inclusive practices, teacher competence, and psychological support for students with diverse learning needs.",
-    topics: ["Inclusive Practices", "Teacher Competence", "Special Needs", "Disability Inclusion"],
+    description: "Researching inclusive practices, teacher competence, and support for students with diverse needs.",
+    topics: ["Inclusive Practices", "Special Needs"],
   },
 ];
 
 export function ResearchFocus() {
   return (
-    <Section size="lg" background="default" id="research">
-      <Container>
-        <SectionHeader
-          title="Research Focus Areas"
-          subtitle="Specializations"
-          description="Interdisciplinary research at the intersection of psychology, education, and human development"
-        />
+    <section className="section bg-manila" id="research">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        
+        <div className="mb-12">
+          <span className="folder-tab">Primary Domains</span>
+          <h2 className="font-serif font-black text-ink tracking-tight uppercase border-b-4 border-ink pb-4" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
+            Research Focus Areas
+          </h2>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {researchAreas.map((area, index) => (
-            <motion.div
-              key={area.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.08, duration: 0.6 }}
-            >
-              <Card className="h-full group">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <area.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-slate-100">{area.title}</h3>
-                </div>
-                <p className="text-slate-400 text-sm leading-relaxed mb-4">{area.description}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {researchAreas.map((area) => (
+            <div key={area.ref} className="index-card interactive flex flex-col p-6 h-full">
+              <div className="flex justify-between items-start border-b-2 border-ink pb-3 mb-4">
+                <span className="font-mono text-xs font-bold text-ink-light">REF: {area.ref}</span>
+                <area.icon className="w-5 h-5 text-ledger" />
+              </div>
+              
+              <h3 className="font-serif font-bold text-ink text-xl uppercase mb-3 leading-tight">
+                {area.title}
+              </h3>
+              
+              <p className="text-ink-light text-sm leading-relaxed mb-6 flex-grow">
+                {area.description}
+              </p>
+              
+              <div className="mt-auto border-t-2 border-dashed border-ink pt-4">
+                <div className="font-mono text-[10px] text-ink-light uppercase mb-2">Keywords</div>
                 <div className="flex flex-wrap gap-2">
                   {area.topics.map((topic) => (
                     <span
                       key={topic}
-                      className="px-2.5 py-1 text-xs rounded-full bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:border-primary/50 hover:text-slate-200 transition-all"
+                      className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider bg-manila-dim border border-ink text-ink"
                     >
                       {topic}
                     </span>
                   ))}
                 </div>
-              </Card>
-            </motion.div>
+              </div>
+            </div>
           ))}
         </div>
-      </Container>
-    </Section>
+      </div>
+    </section>
   );
 }

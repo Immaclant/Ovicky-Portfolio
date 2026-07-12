@@ -1,134 +1,95 @@
 import { motion } from "framer-motion";
-import { FiArrowDown, FiBookOpen, FiAward, FiUsers, FiGlobe } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { Container } from "../ui/Section";
-import { Section } from "../ui/Section";
-import { Button } from "../ui/Button";
-import { Badge } from "../ui/Badge";
-
-const stats = [
-  { icon: FiBookOpen, value: "80+", label: "Publications" },
-  { icon: FiAward, value: "15+", label: "Years Research" },
-  { icon: FiUsers, value: "30+", label: "Journals" },
-  { icon: FiGlobe, value: "10+", label: "Countries" },
-];
 
 export function Hero() {
   const navigate = useNavigate();
+
   return (
-    <Section size="full" background="gradient" id="home">
-      <Container>
-        <div className="relative min-h-screen flex flex-col items-center justify-center">
-          <motion.div
-            className="text-center max-w-4xl mx-auto px-4"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+    <section className="relative min-h-[90vh] flex flex-col justify-center items-center px-4 pt-10 pb-20">
+      
+      {/* The Physical Index Card */}
+      <motion.div 
+        className="index-card max-w-4xl w-full p-6 md:p-10 relative bg-manila z-10"
+        initial={{ opacity: 0, y: -40, rotate: -2 }}
+        animate={{ opacity: 1, y: 0, rotate: 0 }}
+        transition={{ duration: 0.6, ease: [0.175, 0.885, 0.32, 1] }}
+      >
+        {/* Card Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b-2 border-ink pb-4 mb-8">
+          <div>
+            <h1 className="font-serif font-black text-4xl md:text-5xl lg:text-6xl text-ink uppercase tracking-tight">
+              Dr. Fehintola Victor A.
+            </h1>
+            <p className="font-mono text-sm font-bold text-ink-light mt-2 uppercase">
+              Ref No: FCE/EDU/PSYCH-01
+            </p>
+          </div>
+          
+          <motion.div 
+            className="stamp-badge mt-4 md:mt-0 md:ml-4"
+            initial={{ opacity: 0, scale: 1.5, rotate: -15 }}
+            animate={{ opacity: 0.9, scale: 1, rotate: -3 }}
+            transition={{ delay: 0.5, duration: 0.4 }}
           >
-            <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-            >
-              <Badge variant="primary" dot size="sm">
-                Researcher • Writer • Lecturer
-              </Badge>
-            </motion.div>
-
-            <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold text-slate-100 leading-tight tracking-tight"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-            >
-              Exploring the
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-600">
-                Frontiers of Knowledge
-              </span>
-            </motion.h1>
-
-            <motion.p
-              className="mt-6 text-lg md:text-xl lg:text-2xl text-slate-400 max-w-2xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-            >
-              Rigorous academic inquiry meets dedicated mentorship. Publishing
-              groundbreaking research while nurturing the next generation of
-              scholars.
-            </motion.p>
-
-            <motion.div
-              className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-            >
-              <Button
-                size="lg"
-                rightIcon={<FiArrowDown className="w-4 h-4" />}
-                onClick={() => navigate("/publication")}
-              >
-                View Publications
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={() => navigate("/about")}
-              >
-                About Me
-              </Button>
-            </motion.div>
+            Peer Reviewed
           </motion.div>
-
-          <motion.div
-            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-4xl px-4"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
-          >
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                className="relative p-6 bg-slate-900/30 backdrop-blur-sm border border-slate-800/50 rounded-2xl hover:border-primary/30 hover:bg-slate-900/50 transition-all duration-500"
-                whileHover={{ y: -4 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
-              >
-                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-primary/20 text-primary mb-4">
-                  <stat.icon className="w-6 h-6" />
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl md:text-4xl font-bold text-slate-100">{stat.value}</div>
-                  <div className="text-sm text-slate-400 mt-1">{stat.label}</div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <motion.button
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500 hover:text-primary transition-colors"
-            whileHover={{ y: 4 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Scroll down"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 0.8 }}
-          >
-            <span className="text-xs uppercase tracking-widest">Scroll</span>
-            <motion.div
-              className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <FiArrowDown className="w-5 h-5" />
-            </motion.div>
-          </motion.button>
         </div>
-      </Container>
-    </Section>
+
+        {/* Card Content */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <div className="md:col-span-2">
+            <h2 className="font-bold text-lg uppercase tracking-wider mb-2">Subject Abstract</h2>
+            <p className="text-lg leading-relaxed text-ink mb-6">
+              Investigating cognitive and affective factors influencing learning outcomes, motivation, and academic adjustment. Pioneering research at the intersection of positive psychology, entrepreneurship education, and digital learning environments in Nigeria.
+            </p>
+
+            <h2 className="font-bold text-lg uppercase tracking-wider mb-2 mt-8">Primary Domains</h2>
+            <ul className="font-mono text-sm leading-loose border-l-2 border-ledger pl-4 text-ink-light">
+              <li>01. Educational Psychology</li>
+              <li>02. Positive Psychology & Wellbeing</li>
+              <li>03. Entrepreneurship Education</li>
+              <li>04. Social Psychology in Education</li>
+            </ul>
+          </div>
+
+          <div className="border-t-2 md:border-t-0 md:border-l-2 border-ink pt-6 md:pt-0 md:pl-8 flex flex-col justify-between">
+            <div>
+              <h2 className="font-bold text-lg uppercase tracking-wider mb-4">Metrics</h2>
+              <div className="space-y-4 font-mono">
+                <div>
+                  <div className="text-xs text-ink-light">Publications</div>
+                  <div className="text-2xl font-bold">80+</div>
+                </div>
+                <div>
+                  <div className="text-xs text-ink-light">Citations</div>
+                  <div className="text-2xl font-bold">500+</div>
+                </div>
+                <div>
+                  <div className="text-xs text-ink-light">Experience (Yrs)</div>
+                  <div className="text-2xl font-bold">15+</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-col gap-3">
+              <button
+                onClick={() => navigate("/publication")}
+                className="btn-typewriter btn-typewriter-primary w-full"
+              >
+                Access Archive
+              </button>
+              <button
+                onClick={() => navigate("/about")}
+                className="btn-typewriter w-full"
+              >
+                View Dossier
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+    </section>
   );
 }
