@@ -10,6 +10,7 @@ import Admin from "./pages/Admin";
 
 function App() {
   return (
+<<<<<<< HEAD
     <div className="font-sans antialiased" style={{ background: "#0d0d0d", color: "#f5f0e8" }}>
       <Toaster
         position="top-right"
@@ -33,6 +34,10 @@ function App() {
           },
         }}
       />
+=======
+    <div className="font-roboto">
+      <Header />
+>>>>>>> parent of a76fadc (Osogbo Update)
 
       <Routes>
         <Route element={<Layout />}>
@@ -43,6 +48,11 @@ function App() {
           <Route path="/admin" element={<Admin />} />
         </Route>
       </Routes>
+<<<<<<< HEAD
+=======
+
+      <Footer />
+>>>>>>> parent of a76fadc (Osogbo Update)
     </div>
   );
 }

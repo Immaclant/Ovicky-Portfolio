@@ -12,8 +12,13 @@ function Landing() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <main className="bg-manila overflow-hidden relative">
       <Hero />
+=======
+    <main className="main">
+      <Home />
+>>>>>>> parent of a76fadc (Osogbo Update)
       <Achievements />
       <Sample />
       <ResearchFocus />

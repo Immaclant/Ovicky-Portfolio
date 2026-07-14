@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect } from "react";
 import AboutHead from "../components/AboutHead";
 import AboutGallery from "../components/AboutGallery";
@@ -13,6 +14,10 @@ function About() {
       <AboutGallery />
     </div>
   );
+=======
+function About() {
+  return <h1>Hello World</h1>;
+>>>>>>> parent of a76fadc (Osogbo Update)
 }
 
 export default About;

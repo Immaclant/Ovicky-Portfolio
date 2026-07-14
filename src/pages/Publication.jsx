@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect } from "react";
 import Pubhead from "../components/Pubhead";
 
@@ -11,6 +12,10 @@ function Publication() {
       <Pubhead />
     </section>
   );
+=======
+function Publication() {
+  return <h1>Hello World</h1>;
+>>>>>>> parent of a76fadc (Osogbo Update)
 }
 
 export default Publication;

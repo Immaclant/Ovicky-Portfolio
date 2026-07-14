@@ -38,6 +38,7 @@ function Comment() {
               transition={{ duration: 0.5 }}
               className="absolute inset-0 flex flex-col items-center justify-center px-4"
             >
+<<<<<<< HEAD
               {/* Giant quote */}
               <div className="font-serif text-[5rem] text-gold/30 leading-none mb-2 select-none">
                 &ldquo;
@@ -62,6 +63,14 @@ function Comment() {
               </div>
             </motion.div>
           </AnimatePresence>
+=======
+              <div className="mb-4">{"⭐".repeat(comment.rating)}</div>
+              <h3 className="text-1xl font-semibold mb-4">"{comment.text}"</h3>
+              <p className="font-bold text-blue-400 text-sm">{comment.name}</p>
+              <p className="text-sm text-gray-400">{comment.workplace}</p>
+            </div>
+          ))}
+>>>>>>> parent of a76fadc (Osogbo Update)
         </div>
 
         {/* Navigation */}
@@ -74,6 +83,7 @@ function Comment() {
             ←
           </button>
 
+<<<<<<< HEAD
           {/* Dots */}
           <div className="flex gap-2">
             {commentsData.map((_, i) => (
@@ -98,6 +108,18 @@ function Comment() {
         </div>
       </div>
     </section>
+=======
+      {/* 4. Indicators (Dots) */}
+      <div className="flex space-x-2 mt-6">
+        {commentsData.map((_, index) => (
+          <div
+            key={index}
+            className={`h-2 w-2 rounded-full transition-all ${currentIndex === index ? "bg-white w-4" : "bg-white/30"}`}
+          />
+        ))}
+      </div>
+    </div>
+>>>>>>> parent of a76fadc (Osogbo Update)
   );
 }
 

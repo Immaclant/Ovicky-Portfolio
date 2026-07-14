@@ -3,6 +3,7 @@
 @plugin "daisyui";
 
 @theme {
+<<<<<<< HEAD
   /* ── Typefaces ── */
   --font-sans:    'Space Grotesk', sans-serif;
   --font-serif:   'Roboto Slab', serif;
@@ -24,6 +25,9 @@
   --color-primary:      #D34836;
   --color-secondary:    #2C5282;
   --color-border:       #1A1A1A;
+=======
+  --font-roboto: "Roboto", sans-serif;
+>>>>>>> parent of a76fadc (Osogbo Update)
 }
 
 /* ─────────────────── KEYFRAMES ─────────────────── */
